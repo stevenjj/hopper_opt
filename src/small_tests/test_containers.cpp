@@ -1,8 +1,9 @@
 #include <Utils/utilities.hpp>
 #include <hdt/containers/opt_variable.hpp>
 #include <hdt/containers/opt_variable_manager.hpp>
-
 #include <hdt/containers/constraint_list.hpp>
+#include <hdt/containers/contact_list.hpp>
+
 #include <hdt/hard_constraints/constraint_main.hpp>
 
 #include <iostream>
@@ -24,7 +25,7 @@ int main(int argc, char **argv){
 		std::cout << " z[" << i << "] = " << z_state[i] << std::endl;		
 	}
 
-
+	std::cout << " " << std::endl;
 	std::cout << "[Main] Testing Constraint List Container" << std::endl;
 	Constraint_Function* constraint_1 = new Constraint_Function();
 	Constraint_Function* constraint_2 = new Constraint_Function();
@@ -41,7 +42,24 @@ int main(int argc, char **argv){
 		std::cout << constraint_list.get_constraint(i)->constraint_name << std::endl;		
 	}		
 
+	std::cout << " " << std::endl;
+	std::cout << "[Main] Testing Contact List Container" << std::endl;
 
+	Contact* contact_1 = new Contact();
+	Contact* contact_2 = new Contact();
+	contact_1->contact_name = "contact 1";
+	contact_2->contact_name = "contact 2";
+
+	Contact_List contact_list;
+	contact_list.append_contact(contact_1);
+	contact_list.append_contact(contact_2);	
+
+	for(size_t i = 0; i < contact_list.get_size(); i++){
+		std::cout << contact_list.get_contact(i)->contact_name << std::endl;		
+	}		
+
+
+	std::cout << " " << std::endl;
 
 	return 0;
 }

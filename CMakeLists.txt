@@ -60,8 +60,8 @@ set(hopper_model_sources src/hdt/hopper_dynamic_model/Hopper_Definition.h
 
 set(hdt_container_sources src/hdt/containers/opt_variable.cpp
 						  src/hdt/containers/opt_variable_manager.cpp
-						  src/hdt/containers/constraint_list.cpp)
-#						  src/hdt/containers/contact_list.cpp)
+						  src/hdt/containers/constraint_list.cpp
+						  src/hdt/containers/contact_list.cpp)
 
 
 #set(adt_snopt_wrapper_sources src/adt/adt_snopt_wrapper.cpp)
