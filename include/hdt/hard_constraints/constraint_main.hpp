@@ -5,8 +5,8 @@
 #include <vector>
 #include <string>
 #include <iostream>
-#include <hdt/containers/hdt_opt_variable.hpp>
-#include <hdt/containers/hdt_opt_variable_manager.hpp>
+#include <hdt/containers/opt_variable.hpp>
+#include <hdt/containers/opt_variable_manager.hpp>
 #include <hdt/optimization_constants.hpp>
 
 class Constraint_Function{

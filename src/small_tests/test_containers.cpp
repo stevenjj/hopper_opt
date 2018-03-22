@@ -2,9 +2,13 @@
 #include <hdt/containers/opt_variable.hpp>
 #include <hdt/containers/opt_variable_manager.hpp>
 
+#include <hdt/containers/constraint_list.hpp>
+#include <hdt/hard_constraints/constraint_main.hpp>
+
 #include <iostream>
 
 int main(int argc, char **argv){
+	std::cout << "[Main] Testing Opt Manager Container" << std::endl;
 	Opt_Variable* opt_var = new Opt_Variable();
 	std::cout << "Lower Bound:" << opt_var->l_bound << std::endl;
 
@@ -19,6 +23,24 @@ int main(int argc, char **argv){
 	for(size_t i = 0; i < z_state.size(); i++){
 		std::cout << " z[" << i << "] = " << z_state[i] << std::endl;		
 	}
+
+
+	std::cout << "[Main] Testing Constraint List Container" << std::endl;
+	Constraint_Function* constraint_1 = new Constraint_Function();
+	Constraint_Function* constraint_2 = new Constraint_Function();
+
+	constraint_1->constraint_name = "constraint 1";
+	constraint_2->constraint_name = "constraint 2";
+
+	Constraint_List constraint_list;
+	constraint_list.append_constraint(constraint_1);
+	constraint_list.append_constraint(constraint_2);
+
+	std::cout << "We expect two constraints" << std::endl;
+	for(size_t i = 0; i < constraint_list.get_size(); i++){
+		std::cout << constraint_list.get_constraint(i)->constraint_name << std::endl;		
+	}		
+
 
 
 	return 0;
