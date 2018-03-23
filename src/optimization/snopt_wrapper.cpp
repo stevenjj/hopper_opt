@@ -172,6 +172,8 @@ namespace snopt_wrapper{
    	snopt_optimization_problem.setPrintFile("snopt_problem.out"); 
 	snopt_optimization_problem.setIntParameter("Derivative option", 0);
 	snopt_optimization_problem.setIntParameter("Verify level ", 3);	
+	snopt_optimization_problem.setIntParameter("Major iterations limit", 20000);
+	snopt_optimization_problem.setIntParameter("Iterations limit", 200000);	
 	//whole_body_trajectory_problem.setSpecsFile("small_jump.spc");
 	//whole_body_trajectory_problem.setSpecsFile("com_jump.spc");
 

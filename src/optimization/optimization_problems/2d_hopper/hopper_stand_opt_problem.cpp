@@ -42,7 +42,7 @@ Hopper_Stand_Opt::~Hopper_Stand_Opt(){
 void Hopper_Stand_Opt::Initialization(){
 	robot_model = HopperModel::GetRobotModel();
 
-	N_total_knotpoints = 5; //6;
+	N_total_knotpoints = 6; //6;
 
 	h_dt_min = 0.001; // Minimum knotpoint timestep
 	max_normal_force = 1e10;//10000; // Newtons
@@ -131,6 +131,9 @@ void Hopper_Stand_Opt::initialize_opt_vars(){
 		for(size_t i = 0; i < contact_list.get_size(); i++){
 			// Apply normal force constraints on z direction		        
 		    opt_var_manager.append_variable(new Opt_Variable("Fr_z_" + std::to_string(i), VAR_TYPE_FR, k, 0.0, 0.0, max_normal_force) );
+        // Each LCP contact has an alpha (phi(q)) and gamma (Phi(q)*Fr)
+        opt_var_manager.append_variable(new Opt_Variable("alpha_c" + std::to_string(i) , VAR_TYPE_ALPHA, k, 0.0, 0.0, OPT_INFINITY) );        
+        opt_var_manager.append_variable(new Opt_Variable("gamma_c" + std::to_string(i) , VAR_TYPE_GAMMA, k, 0.0, 0.0, OPT_INFINITY) );
 		}
 		
 		// [h_dt] knotpoint timestep
@@ -152,6 +155,10 @@ void Hopper_Stand_Opt::initialize_opt_vars(){
 }
 
 void Hopper_Stand_Opt::initialize_specific_variable_bounds(){
+  // Jump at half way
+  // opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints/2][0]->l_bound = 0.9;
+  // opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints/2][0]->u_bound = OPT_INFINITY;
+
   //Set final position of the base to be at 0.7
   opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints][0]->l_bound = 0.7 - OPT_ZERO_EPS;
   opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints][0]->u_bound = 0.7 + OPT_ZERO_EPS;

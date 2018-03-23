@@ -26,12 +26,40 @@ void Hopper_Floor_Contact_LCP_Constraint::Initialization(){
 
 void Hopper_Floor_Contact_LCP_Constraint::initialize_Flow_Fupp(){
 	// Phi(q)*||Fr|| = 0. Try: Phi(q)*||Fr|| <= 0
-  F_low.push_back(0.0); 
+  F_low.push_back(-OPT_INFINITY); 
   F_upp.push_back(0.0);
   // Phi(q) >= 0
   F_low.push_back(0.0); 
-  F_upp.push_back(0.0);
+  F_upp.push_back(OPT_INFINITY);
+
+  // // // Try alpha_1 = phi(q), gamma_1 = ||Fr||^2_2
+  // // alpha_1 = phi(q)
+  // F_low.push_back(0.0); 
+  // F_upp.push_back(0.0);     
+  // // gamma_1 = ||Fr||^2_2  
+  // F_low.push_back(0.0); 
+  // F_upp.push_back(0.0);     
+  // //
+  // double epsilon = 0.1; // for initial convergence
+  // // // alpha_1 * gamma_1 <= epsilon
+  // F_low.push_back(-OPT_INFINITY); 
+  // F_upp.push_back(epsilon);     
+
+
+  // // Try phi(q) >= 0 gamma_1 = ||Fr||^2_2, phi(q)*gamma <= 0, 
+  // // phi(q) >= 0
+  // F_low.push_back(0.0); 
+  // F_upp.push_back(OPT_INFINITY);  
+  // // // gamma_1 = ||Fr||^2_2  
+  // F_low.push_back(0.0); 
+  // F_upp.push_back(0.0);     
+  // // phi(q)*gamma <= 0 
+  // F_low.push_back(-OPT_INFINITY); 
+  // F_upp.push_back(0.0);     
+
+
   constraint_size = F_low.size();
+
 }
 
 void Hopper_Floor_Contact_LCP_Constraint::setContact_List(Contact_List* contact_list_in){
@@ -76,9 +104,42 @@ void Hopper_Floor_Contact_LCP_Constraint::evaluate_constraint(const int &knotpoi
 
   double phi_contact_dis = contact_pos_vec[0];
   double complimentary_constraint = phi_contact_dis*Fr_l2_norm_squared;
-
   F_vec.push_back(complimentary_constraint); // Phi*||Fr|| = 0
   F_vec.push_back(phi_contact_dis);    // Phi >= 0
+
+
+  // Try the LCP substitutions v1
+  // sejong::Vector alpha_state;
+  // sejong::Vector gamma_state;  
+
+  // var_manager.get_alpha_states(knotpoint, alpha_state);     
+  // var_manager.get_gamma_states(knotpoint, gamma_state);           
+
+  // double alpha = alpha_state[0] - phi_contact_dis;
+  // double gamma = gamma_state[0] - Fr_l2_norm_squared;
+  // double ag_complimentary = alpha*gamma;
+
+  // F_vec.push_back(alpha);
+  // F_vec.push_back(gamma);
+  // F_vec.push_back(ag_complimentary);
+
+
+  // Try the LCP substitutions v2
+  // sejong::Vector gamma_state; 
+  // var_manager.get_gamma_states(knotpoint, gamma_state);             
+  // double gamma = gamma_state[0] - Fr_l2_norm_squared;
+  // double phi_g_complimentary = phi_contact_dis*gamma;
+
+  // F_vec.push_back(phi_contact_dis);
+  // F_vec.push_back(gamma);
+  // F_vec.push_back(phi_g_complimentary);    
+
+  //sejong::pretty_print(q_state, std::cout, "q_state");
+  //std::cout << "phi_contact_dis = " << phi_contact_dis << std::endl;
+
+
+
+
 
 }
 
