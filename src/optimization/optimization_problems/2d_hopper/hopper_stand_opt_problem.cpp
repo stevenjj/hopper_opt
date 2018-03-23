@@ -156,7 +156,7 @@ void Hopper_Stand_Opt::initialize_opt_vars(){
 
 void Hopper_Stand_Opt::initialize_specific_variable_bounds(){
   // Jump at half way
-  // opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints/2][0]->l_bound = 0.9;
+  // opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints/2][0]->l_bound = 0.7;
   // opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints/2][0]->u_bound = OPT_INFINITY;
 
   //Set final position of the base to be at 0.7
