@@ -1,5 +1,5 @@
-#ifndef HOPPER_JUMP_OPTIMIZATION_PROBLEM_H
-#define HOPPER_JUMP_OPTIMIZATION_PROBLEM_H
+#ifndef HOPPER_STAND_OPTIMIZATION_PROBLEM_H
+#define HOPPER_STAND_OPTIMIZATION_PROBLEM_H
 
 #include <optimization/optimization_problems/opt_problem_main.hpp>
 #include <optimization/containers/opt_variable.hpp>
@@ -13,10 +13,10 @@
 #include "HopperModel.hpp"
 #include "Hopper_Definition.h"
 
-class Hopper_Jump_Opt: public Optimization_Problem_Main{
+class Hopper_Stand_Opt: public Optimization_Problem_Main{
 public:
-  Hopper_Jump_Opt();
-  ~Hopper_Jump_Opt();	
+  Hopper_Stand_Opt();
+  ~Hopper_Stand_Opt();	
 
   Opt_Variable_Manager    			opt_var_manager;
   HopperModel*                  robot_model;

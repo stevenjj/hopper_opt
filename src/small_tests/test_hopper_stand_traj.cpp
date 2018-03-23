@@ -1,7 +1,7 @@
 #include <iostream>
 #include <Utils/utilities.hpp>
 
-#include <optimization/optimization_problems/hopper_jump_opt_problem.hpp>
+#include <optimization/optimization_problems/2d_hopper/hopper_stand_opt_problem.hpp>
 #include <optimization/snopt_wrapper.hpp>
 
 
@@ -39,7 +39,7 @@ void parse_output(Optimization_Problem_Main* opt_prob){
 int main(int argc, char **argv)
 {
 	std::cout << "[Main] Running Hopper Stand Optimization Problem" << std::endl;
-	Optimization_Problem_Main* 	opt_problem = new Hopper_Jump_Opt();
+	Optimization_Problem_Main* 	opt_problem = new Hopper_Stand_Opt();
 
 	snopt_wrapper::solve_problem_no_gradients(opt_problem);
 	parse_output(opt_problem);

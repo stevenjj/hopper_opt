@@ -1,9 +1,10 @@
 #include <Utils/utilities.hpp>
-#include <optimization/optimization_problems/hopper_jump_opt_problem.hpp>
+#include <optimization/optimization_problems/2d_hopper/hopper_stand_opt_problem.hpp>
 #include <optimization/optimization_constants.hpp>
 
 #include <optimization/hard_constraints/2d_hopper/hopper_dynamics_constraint.hpp>
 #include <optimization/hard_constraints/2d_hopper/hopper_time_integration_constraint.hpp>
+#include <optimization/hard_constraints/2d_hopper/hopper_contact_lcp_constraint.hpp>
 
 #include <optimization/contacts/2d_hopper/hopper_foot_contact.hpp>
 
@@ -20,7 +21,7 @@
 
 #include <string>
 
-Hopper_Jump_Opt::Hopper_Jump_Opt(){
+Hopper_Stand_Opt::Hopper_Stand_Opt(){
 	problem_name = "Hopper Jump Optimization Problem";
 
 	robot_q_init.resize(NUM_Q); 
@@ -32,13 +33,13 @@ Hopper_Jump_Opt::Hopper_Jump_Opt(){
 	Initialization();
 }
 
-Hopper_Jump_Opt::~Hopper_Jump_Opt(){
-	std::cout << "[Hopper_Jump_Opt] Destructor Called" << std::endl;
+Hopper_Stand_Opt::~Hopper_Stand_Opt(){
+	std::cout << "[Hopper_Stand_Opt] Destructor Called" << std::endl;
 }
 
 
 // Problem Specific Initialization -------------------------------------
-void Hopper_Jump_Opt::Initialization(){
+void Hopper_Stand_Opt::Initialization(){
 	robot_model = HopperModel::GetRobotModel();
 
 	N_total_knotpoints = 5; //6;
@@ -58,7 +59,7 @@ void Hopper_Jump_Opt::Initialization(){
 	initialize_objective_func();
 
 }
-void Hopper_Jump_Opt::initialize_starting_configuration(){
+void Hopper_Stand_Opt::initialize_starting_configuration(){
  // Set Virtual Joints
   // z_virt
   robot_q_init[0] = 0.5;
@@ -67,22 +68,24 @@ void Hopper_Jump_Opt::initialize_starting_configuration(){
 
 }
 
-void Hopper_Jump_Opt::initialize_contact_list(){
+void Hopper_Stand_Opt::initialize_contact_list(){
   Hopper_Foot_Contact* foot_contact = new Hopper_Foot_Contact();
   contact_list.append_contact(foot_contact);
 }
 
-void Hopper_Jump_Opt::initialize_td_constraint_list(){
+void Hopper_Stand_Opt::initialize_td_constraint_list(){
+  int foot_contact_index = 0;
 	td_constraint_list.append_constraint(new Hopper_Dynamics_Constraint(&contact_list)); 
   td_constraint_list.append_constraint(new Hopper_Back_Euler_Time_Integration_Constraint());
+  td_constraint_list.append_constraint(new Hopper_Floor_Contact_LCP_Constraint(&contact_list, foot_contact_index));
 }
 
-void Hopper_Jump_Opt::initialize_ti_constraint_list(){
+void Hopper_Stand_Opt::initialize_ti_constraint_list(){
 }
 
 
 
-void Hopper_Jump_Opt::initialize_opt_vars(){
+void Hopper_Stand_Opt::initialize_opt_vars(){
 	// Optimization Variable Order:
 	// opt_init = [q_virt, z, qdot_virt, zdot, delta, delta_dot]
 	// opt_td_k = [q_virt_k, z_k, qdot_virt_k, zdot_k, delta_k, delta_dot_k, u_k, Fij_k, Bij_k]
@@ -104,8 +107,8 @@ void Hopper_Jump_Opt::initialize_opt_vars(){
 
 	// set variable manager initial condition offset = NUM_VIRTUAL*2 + (NUM_STATES_PER_ACTUATOR*NUM_ACT)*2 
 	int initial_conditions_offset = NUM_Q + NUM_QDOT;
-	std::cout << "[Hopper_Jump_Opt] Predicted Number of states : " << initial_conditions_offset << std::endl;
-	std::cout << "[Hopper_Jump_Opt] Actual : " << opt_var_manager.get_size() << std::endl;	 
+	std::cout << "[Hopper_Stand_Opt] Predicted Number of states : " << initial_conditions_offset << std::endl;
+	std::cout << "[Hopper_Stand_Opt] Actual : " << opt_var_manager.get_size() << std::endl;	 
 	// ****
 	opt_var_manager.initial_conditions_offset = initial_conditions_offset;
 	// ****
@@ -141,14 +144,14 @@ void Hopper_Jump_Opt::initialize_opt_vars(){
 	opt_var_manager.compute_size_time_dep_vars();
 	// ****
 	int size_of_time_dep_vars = NUM_Q + NUM_QDOT + contact_list.get_size() + N_total_knotpoints;
-	std::cout << "[Hopper_Jump_Opt] Predicted Size of Time Dependent Vars : " << size_of_time_dep_vars << std::endl;
-	std::cout << "[Hopper_Jump_Opt] Actual : " << opt_var_manager.get_size_timedependent_vars() << std::endl;	 
+	std::cout << "[Hopper_Stand_Opt] Predicted Size of Time Dependent Vars : " << size_of_time_dep_vars << std::endl;
+	std::cout << "[Hopper_Stand_Opt] Actual : " << opt_var_manager.get_size_timedependent_vars() << std::endl;	 
 	int predicted_size_of_F = size_of_time_dep_vars*N_total_knotpoints;
-	std::cout << "[Hopper_Jump_Opt] Predicted Size of Opt Vars: " << predicted_size_of_F << std::endl;
+	std::cout << "[Hopper_Stand_Opt] Predicted Size of Opt Vars: " << predicted_size_of_F << std::endl;
 
 }
 
-void Hopper_Jump_Opt::initialize_specific_variable_bounds(){
+void Hopper_Stand_Opt::initialize_specific_variable_bounds(){
   //Set final position of the base to be at 0.7
   opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints][0]->l_bound = 0.7 - OPT_ZERO_EPS;
   opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints][0]->u_bound = 0.7 + OPT_ZERO_EPS;
@@ -158,36 +161,36 @@ void Hopper_Jump_Opt::initialize_specific_variable_bounds(){
 
 }
 
-void Hopper_Jump_Opt::initialize_objective_func(){
+void Hopper_Stand_Opt::initialize_objective_func(){
   // |F_td| = num of time dependent constraint functions
   // |F_ti| = num of time independent constraint functions	
   // T = total timesteps
   objective_function.set_var_manager(opt_var_manager);  
   objective_function.objective_function_index = td_constraint_list.get_num_constraint_funcs()*N_total_knotpoints + ti_constraint_list.get_num_constraint_funcs();
 
-  std::cout << "[Hopper_Jump_Opt] Objective Function has index: " << objective_function.objective_function_index << std::endl;
+  std::cout << "[Hopper_Stand_Opt] Objective Function has index: " << objective_function.objective_function_index << std::endl;
 
 }
 
 
 // SNOPT Interface
 // Remember to apply the initial conditions offset for the optimization variables 
-void Hopper_Jump_Opt::get_init_opt_vars(std::vector<double> &x_vars){
+void Hopper_Stand_Opt::get_init_opt_vars(std::vector<double> &x_vars){
   opt_var_manager.get_init_opt_vars(x_vars);
 }
-void Hopper_Jump_Opt::get_opt_vars_bounds(std::vector<double> &x_low, std::vector<double> &x_upp){
+void Hopper_Stand_Opt::get_opt_vars_bounds(std::vector<double> &x_low, std::vector<double> &x_upp){
   opt_var_manager.get_opt_vars_bounds(x_low, x_upp);
 }   	  	
-void Hopper_Jump_Opt::get_current_opt_vars(std::vector<double> &x_vars_out){
+void Hopper_Stand_Opt::get_current_opt_vars(std::vector<double> &x_vars_out){
   opt_var_manager.get_current_opt_vars(x_vars_out);
 }
-void Hopper_Jump_Opt::update_opt_vars(std::vector<double> &x_vars){
+void Hopper_Stand_Opt::update_opt_vars(std::vector<double> &x_vars){
   opt_var_manager.update_opt_vars(x_vars);
 } 	  		
 
 
 
-void Hopper_Jump_Opt::get_F_bounds(std::vector<double> &F_low, std::vector<double> &F_upp){
+void Hopper_Stand_Opt::get_F_bounds(std::vector<double> &F_low, std::vector<double> &F_upp){
   F_low.clear();
   F_upp.clear();  
   // Initialize Bounds for Time Dependent Constraints
@@ -220,17 +223,17 @@ void Hopper_Jump_Opt::get_F_bounds(std::vector<double> &F_low, std::vector<doubl
   F_upp.push_back(objective_function.F_upp);  	
 }
 
-void Hopper_Jump_Opt::get_F_obj_Row(int &obj_row){
+void Hopper_Stand_Opt::get_F_obj_Row(int &obj_row){
   obj_row = objective_function.objective_function_index;
-  std::cout << "[Hopper_Jump_Opt] Objective Row = " << obj_row << std::endl;
+  std::cout << "[Hopper_Stand_Opt] Objective Row = " << obj_row << std::endl;
 }
 
-void Hopper_Jump_Opt::compute_F_objective_function(double &result_out){
+void Hopper_Stand_Opt::compute_F_objective_function(double &result_out){
   objective_function.evaluate_objective_function(opt_var_manager, result_out);
-  //std::cout << "[Hopper_Jump_Opt] cost = " << result_out << std::endl;
+  //std::cout << "[Hopper_Stand_Opt] cost = " << result_out << std::endl;
 }
 
-void Hopper_Jump_Opt::compute_F(std::vector<double> &F_eval){
+void Hopper_Stand_Opt::compute_F(std::vector<double> &F_eval){
   compute_F_constraints(F_eval);
   double cost = 0.0;
 
@@ -240,9 +243,9 @@ void Hopper_Jump_Opt::compute_F(std::vector<double> &F_eval){
 }
 
 
-void Hopper_Jump_Opt::compute_F_constraints(std::vector<double> &F_eval){
+void Hopper_Stand_Opt::compute_F_constraints(std::vector<double> &F_eval){
   std::vector<double> F_vec_const;
-  //std::cout << "[Hopper_Jump_Opt] Computing F Constraints" << std::endl;
+  //std::cout << "[Hopper_Stand_Opt] Computing F Constraints" << std::endl;
 
   // Compute Timestep Dependent Constraints
   for(int knotpoint = 1; knotpoint < N_total_knotpoints + 1; knotpoint++){
@@ -286,7 +289,7 @@ void Hopper_Jump_Opt::compute_F_constraints(std::vector<double> &F_eval){
 
 
 
-void Hopper_Jump_Opt::compute_G(std::vector<double> &G_eval, std::vector<int> &iGfun, std::vector<int> &jGvar, int &neG){}
-void Hopper_Jump_Opt::compute_A(std::vector<double> &A_eval, std::vector<int> &iAfun, std::vector<int> &jAvar, int &neA){}
+void Hopper_Stand_Opt::compute_G(std::vector<double> &G_eval, std::vector<int> &iGfun, std::vector<int> &jGvar, int &neG){}
+void Hopper_Stand_Opt::compute_A(std::vector<double> &A_eval, std::vector<int> &iAfun, std::vector<int> &jAvar, int &neA){}
 
 
