@@ -95,7 +95,7 @@ void Hopper_Dynamics_Constraint::evaluate_constraint(const int &knotpoint, Opt_V
   dynamics_k = A_mat*(qdot_state_k - qdot_state_k_prev)/h_k + coriolis + gravity - Jc.transpose()*Fr_state_k - Sa.transpose()*u_state_k;
 
   for(size_t i = 0; i < dynamics_k.size(); i++){
-    //std::cout << " constraint " << i << ", value = " << dynamics_k[i] << std::endl;
+    //std::cout << "dynamics constraint " << i << ", value = " << dynamics_k[i] << std::endl;
     F_vec.push_back(dynamics_k[i]);    
   }
 

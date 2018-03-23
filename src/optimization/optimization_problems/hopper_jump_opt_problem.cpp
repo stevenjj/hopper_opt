@@ -131,7 +131,7 @@ void Hopper_Jump_Opt::initialize_opt_vars(){
 		}
 		
 		// [h_dt] knotpoint timestep
-        opt_var_manager.append_variable(new Opt_Variable("h_dt_" + std::to_string(k) , VAR_TYPE_H, k, h_dt_min, 0.05, OPT_INFINITY) );
+        opt_var_manager.append_variable(new Opt_Variable("h_dt_" + std::to_string(k) , VAR_TYPE_H, k, h_dt_min, 0.05, 1.0) );
 	}
   	// Assign total knotpoints
 	opt_var_manager.total_knotpoints = N_total_knotpoints;
@@ -150,9 +150,11 @@ void Hopper_Jump_Opt::initialize_opt_vars(){
 
 void Hopper_Jump_Opt::initialize_specific_variable_bounds(){
   //Set final position of the base to be at 0.7
-  // opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints][0]->l_bound = 0.7 - OPT_ZERO_EPS;
-  // opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints][0]->u_bound = 0.7 + OPT_ZERO_EPS;
+  opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints][0]->l_bound = 0.7 - OPT_ZERO_EPS;
+  opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints][0]->u_bound = 0.7 + OPT_ZERO_EPS;
 
+  opt_var_manager.knotpoint_to_qdot_state_vars[N_total_knotpoints][0]->l_bound = -OPT_ZERO_EPS;
+  opt_var_manager.knotpoint_to_qdot_state_vars[N_total_knotpoints][0]->u_bound = +OPT_ZERO_EPS;
 
 }
 

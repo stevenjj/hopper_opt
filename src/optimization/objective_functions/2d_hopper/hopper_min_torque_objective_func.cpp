@@ -14,17 +14,32 @@ void Hopper_Min_Torque_Objective_Function::set_var_manager(Opt_Variable_Manager&
 }
 
 void Hopper_Min_Torque_Objective_Function::evaluate_objective_function(Opt_Variable_Manager& var_manager, double &result){
+	sejong::Vector q_states;
+	sejong::Vector q_states_prev;
+	sejong::Vector qdot_states;
+	sejong::Vector q_init_states;
+
 	sejong::Vector u_states;	
+	sejong::Vector Fr_states;	
+
 
 	double cost = 0.0;
 	double h_k = 1.0; 
 
+	var_manager.get_q_states(0, q_init_states);
+
 	for(size_t k = 1; k < N_total_knotpoints + 1; k++){
 		var_manager.get_u_states(k, u_states);
+		var_manager.get_var_reaction_forces(k, Fr_states);
+		var_manager.get_q_states(k, q_states);
+		var_manager.get_q_states(k-1, q_states_prev);
 
 		cost += u_states.transpose()*Q_u*u_states;
+		cost += (q_states - q_states_prev).transpose()*(q_states - q_states_prev);
+		cost += (Fr_states.transpose()*Fr_states);		
+		
 		//cost += u_states.transpose()*zdot_states;
-		//cost *= h_k;
+		cost *= h_k;
 		//std::cout << "cost = " << cost << std::endl;
 	}
 	result = cost;
