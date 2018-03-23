@@ -64,8 +64,12 @@ set(container_sources src/optimization/containers/opt_variable.cpp
 						  src/optimization/containers/contact_list.cpp)
 
 set(hopper_opt_problem_source src/optimization/optimization_problems/hopper_jump_opt_problem.cpp)
+
 set(hopper_constraints src/optimization/hard_constraints/2d_hopper/hopper_dynamics_constraint.cpp
 					   src/optimization/hard_constraints/2d_hopper/hopper_time_integration_constraint.cpp)
+
+set(hopper_objective_func_sources src/optimization/objective_functions/2d_hopper/hopper_min_torque_objective_func.cpp)
+
 
 #set(adt_snopt_wrapper_sources src/optimization/adt_snopt_wrapper.cpp)
 
@@ -84,6 +88,7 @@ add_executable(test_hopper_opt_obj  src/small_tests/test_hopper_prob_obj.cpp ${h
 																		 ${container_sources}
 																		 ${hopper_opt_problem_source}
 																		 ${hopper_constraints}
+																		 ${hopper_objective_func_sources}
 )
 target_link_libraries(test_hopper_opt_obj  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})								 
 

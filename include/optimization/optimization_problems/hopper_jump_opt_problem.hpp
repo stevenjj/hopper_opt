@@ -8,6 +8,7 @@
 #include <optimization/containers/contact_list.hpp>
 
 #include <optimization/objective_functions/objective_function_main.hpp>
+#include <optimization/objective_functions/2d_hopper/hopper_min_torque_objective_func.hpp>
 
 #include "HopperModel.hpp"
 #include "Hopper_Definition.h"
@@ -30,14 +31,13 @@ public:
   sejong::Vector 								robot_qdot_init; 
 
   int 										      N_total_knotpoints;
-  //int 										      N_d; // Number of friction cone basis vectors
 
   double										    h_dt_min;
   double										    max_normal_force;
   double										    max_tangential_force;	  	
 
-  Objective_Function				    objective_function;
-
+//  Objective_Function				    objective_function;
+  Hopper_Min_Torque_Objective_Function            objective_function;
 
 
   int constraint_size; // Unused

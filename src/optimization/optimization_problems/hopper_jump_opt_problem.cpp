@@ -39,7 +39,7 @@ Hopper_Jump_Opt::~Hopper_Jump_Opt(){
 void Hopper_Jump_Opt::Initialization(){
 	robot_model = HopperModel::GetRobotModel();
 
-	N_total_knotpoints = 12; //6;
+	N_total_knotpoints = 5; //6;
 
 	h_dt_min = 0.001; // Minimum knotpoint timestep
 	max_normal_force = 1e10;//10000; // Newtons
@@ -110,8 +110,8 @@ void Hopper_Jump_Opt::initialize_opt_vars(){
 	// Set Time Dependent Variables
 	// ------------------------------------------------------------------
 	for(size_t k = 1; k < N_total_knotpoints + 1; k++){
-   	    opt_var_manager.append_variable(new Opt_Variable("q_state_" + std::to_string(0), VAR_TYPE_Q, k, robot_q_init[0], 0, 10) );
-   	    opt_var_manager.append_variable(new Opt_Variable("q_state_" + std::to_string(1), VAR_TYPE_Q, k, robot_q_init[1], -0.75, 0.0) );
+  	  opt_var_manager.append_variable(new Opt_Variable("q_state_" + std::to_string(0), VAR_TYPE_Q, k, robot_q_init[0], 0, 10) );
+   	  opt_var_manager.append_variable(new Opt_Variable("q_state_" + std::to_string(1), VAR_TYPE_Q, k, robot_q_init[1], -0.75, 0.0) );
 	    opt_var_manager.append_variable(new Opt_Variable("qdot_state_" + std::to_string(0), VAR_TYPE_QDOT, k, 0.0, -10, 10) );
 	    opt_var_manager.append_variable(new Opt_Variable("qdot_state_" + std::to_string(1), VAR_TYPE_QDOT, k, 0.0, -10, 10) );
 
@@ -145,6 +145,9 @@ void Hopper_Jump_Opt::initialize_opt_vars(){
 }
 
 void Hopper_Jump_Opt::initialize_specific_variable_bounds(){
+  // Set final position of the base to be at 0.7
+  opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints][0]->l_bound = 0.7 - OPT_ZERO_EPS;
+  opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints][0]->u_bound = 0.7 + OPT_ZERO_EPS;
 
 }
 
@@ -239,7 +242,7 @@ void Hopper_Jump_Opt::compute_F_constraints(std::vector<double> &F_eval){
     for(int i = 0; i < td_constraint_list.get_size(); i++){
       F_vec_const.clear();
       td_constraint_list.get_constraint(i)->evaluate_constraint(knotpoint, opt_var_manager, F_vec_const);
-      std::cout << " Adding TD Constraint " << td_constraint_list.get_constraint(i)->constraint_name << std::endl;
+      //std::cout << " Adding TD Constraint " << td_constraint_list.get_constraint(i)->constraint_name << std::endl;
 
       for(int j = 0; j < F_vec_const.size(); j++){
         //std::cout << "F_td_const[" << j <<"] = " << F_vec_const[j] << std::endl;
