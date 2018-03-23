@@ -1,8 +1,8 @@
 #ifndef OPTIMIZATION_PROBLEM_MAIN_H
 #define OPTIMIZATION_PROBLEM_MAIN_H
 #include <Utils/wrap_eigen.hpp>
-#include <hdt/optimization_constants.hpp>
-#include <hdt/containers/opt_variable_manager.hpp>
+#include <optimization/optimization_constants.hpp>
+#include <optimization/containers/opt_variable_manager.hpp>
 #include <string>
 
 class Optimization_Problem_Main{

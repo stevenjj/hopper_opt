@@ -1,7 +1,7 @@
 #ifndef CONSTRAINT_LIST_H
 #define CONSTRAINT_LIST_H
 
-#include <hdt/hard_constraints/constraint_main.hpp>
+#include <optimization/hard_constraints/constraint_main.hpp>
 #include <vector>
 #include <string>
 

@@ -1,5 +1,5 @@
-#ifndef HOPPER_OPT_CONSTANTS_H
-#define HOPPER_OPT_CONSTANTS_H
+#ifndef OPT_CONSTANTS_H
+#define OPT_CONSTANTS_H
   #define OPT_INFINITY 1.0e20
   #define OPT_ZERO_EPS 1.0e-4
 

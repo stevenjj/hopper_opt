@@ -51,20 +51,22 @@ include_directories(${Sejong_Include_Path})
 include_directories(${Sejong_Eigen_Path})
 
 include_directories(include)
-include_directories(src/hdt/hopper_dynamic_model)
+include_directories(src/hopper_dynamic_model)
 
-set(hopper_model_sources src/hdt/hopper_dynamic_model/Hopper_Definition.h
-						 src/hdt/hopper_dynamic_model/HopperModel.hpp
-						 src/hdt/hopper_dynamic_model/HopperModel.cpp)			
-
-
-set(hdt_container_sources src/hdt/containers/opt_variable.cpp
-						  src/hdt/containers/opt_variable_manager.cpp
-						  src/hdt/containers/constraint_list.cpp
-						  src/hdt/containers/contact_list.cpp)
+set(hopper_model_sources src/hopper_dynamic_model/Hopper_Definition.h
+						 src/hopper_dynamic_model/HopperModel.hpp
+						 src/hopper_dynamic_model/HopperModel.cpp)			
 
 
-#set(adt_snopt_wrapper_sources src/adt/adt_snopt_wrapper.cpp)
+set(container_sources src/optimization/containers/opt_variable.cpp
+						  src/optimization/containers/opt_variable_manager.cpp
+						  src/optimization/containers/constraint_list.cpp
+						  src/optimization/containers/contact_list.cpp)
+
+set(hopper_opt_problem_source src/optimization/optimization_problems/hopper_jump_opt_problem.cpp)
+set(hopper_constraints src/optimization/hard_constraints/2d_hopper/hopper_dynamics_constraint.cpp)
+
+#set(adt_snopt_wrapper_sources src/optimization/adt_snopt_wrapper.cpp)
 
 
 #--------------------------------------------
@@ -77,19 +79,18 @@ target_link_libraries(test_hopper_model  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnop
 #--------------------------------------------
 # Test Hopper Optimization Object
 #--------------------------------------------
-#add_executable(test_hopper_opt  src/small_tests/test_hopper_problem.cpp ${hopper_model_sources}
-#																		${adt_container_sources}
-#																		${adt_optimization_problem_sources}
-#																		${adt_objective_function_sources}	
-#																		${adt_snopt_wrapper_sources}	
-#)
-#target_link_libraries(test_hopper_opt  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})								 
+add_executable(test_hopper_opt_obj  src/small_tests/test_hopper_prob_obj.cpp ${hopper_model_sources}
+																		 ${container_sources}
+																		 ${hopper_opt_problem_source}
+																		 ${hopper_constraints}
+)
+target_link_libraries(test_hopper_opt_obj  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})								 
 
 
 #--------------------------------------------
 # Test Variable Containers Model 
 #--------------------------------------------
-add_executable(test_containers  src/small_tests/test_containers.cpp  ${hdt_container_sources})
+add_executable(test_containers  src/small_tests/test_containers.cpp  ${container_sources})
 target_link_libraries(test_containers  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})					 
 #--------------------------------------------
 

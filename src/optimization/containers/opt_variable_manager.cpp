@@ -1,4 +1,4 @@
-#include <hdt/containers/opt_variable_manager.hpp>
+#include <optimization/containers/opt_variable_manager.hpp>
 #include <iostream>
 
 Opt_Variable_Manager::Opt_Variable_Manager():total_knotpoints(0){}

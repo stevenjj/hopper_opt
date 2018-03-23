@@ -4,7 +4,7 @@
 #include <Utils/wrap_eigen.hpp>
 #include <vector>
 #include <map>
-#include <hdt/containers/opt_variable.hpp>
+#include <optimization/containers/opt_variable.hpp>
 
 class Opt_Variable_Manager{
 public:

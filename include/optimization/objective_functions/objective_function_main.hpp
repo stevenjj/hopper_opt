@@ -5,9 +5,9 @@
 #include <vector>
 #include <string>
 #include <iostream>
-#include <hdt/containers/opt_variable.hpp>
-#include <hdt/containers/opt_variable_manager.hpp>
-#include <hdt/optimization_constants.hpp>
+#include <optimization/containers/opt_variable.hpp>
+#include <optimization/containers/opt_variable_manager.hpp>
+#include <optimization/optimization_constants.hpp>
 
 class Objective_Function{
 public:

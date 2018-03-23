@@ -1,15 +1,13 @@
 #ifndef HOPPER_JUMP_OPTIMIZATION_PROBLEM_H
 #define HOPPER_JUMP_OPTIMIZATION_PROBLEM_H
 
-#include <hdt/optimization_problems/opt_problem_main.hpp>
+#include <optimization/optimization_problems/opt_problem_main.hpp>
+#include <optimization/containers/opt_variable.hpp>
+#include <optimization/containers/opt_variable_manager.hpp>
+#include <optimization/containers/constraint_list.hpp>
+#include <optimization/containers/contact_list.hpp>
 
-
-#include <hdt/containers/adt_opt_variable.hpp>
-#include <hdt/containers/Opt_Variable_Manager.hpp>
-// #include <hdt/containers/adt_constraint_list.hpp>
-// #include <hdt/containers/adt_contact_list.hpp>
-
-#include <hdt/objective_functions/objective_function_main.hpp>
+#include <optimization/objective_functions/objective_function_main.hpp>
 
 #include "HopperModel.hpp"
 #include "Hopper_Definition.h"
@@ -22,19 +20,14 @@ public:
   Opt_Variable_Manager    			opt_var_manager;
   HopperModel*                  robot_model;
 
-  // Contact_List 								  contact_list;
+  Contact_List 								  contact_list;
 
-  // Constraint_List 							td_constraint_list; // Time Dependent Constraint List, exists for all timesteps
-  // Constraint_List 							ti_constraint_list;	// Time Independent Constraint List, exists for at a particular timestep
+  Constraint_List 							td_constraint_list; // Time Dependent Constraint List, exists for all timesteps
+  Constraint_List 							ti_constraint_list;	// Time Independent Constraint List, exists for at a particular timestep
   
 
   sejong::Vector 								robot_q_init;
   sejong::Vector 								robot_qdot_init; 
-  sejong::Vector 								act_z_init;
-  sejong::Vector 								act_zdot_init;
-  sejong::Vector 								act_delta_init;
-  sejong::Vector 								act_delta_dot_init;  	  	
-
 
   int 										      N_total_knotpoints;
   //int 										      N_d; // Number of friction cone basis vectors

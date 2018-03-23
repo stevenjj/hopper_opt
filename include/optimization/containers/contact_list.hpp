@@ -2,7 +2,7 @@
 #define CONTACT_LIST_H
 
 #include <vector>
-#include <hdt/contacts/contact_main.hpp>
+#include <optimization/contacts/contact_main.hpp>
 
 class Contact_List{
 public:

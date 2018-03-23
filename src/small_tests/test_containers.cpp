@@ -1,10 +1,10 @@
 #include <Utils/utilities.hpp>
-#include <hdt/containers/opt_variable.hpp>
-#include <hdt/containers/opt_variable_manager.hpp>
-#include <hdt/containers/constraint_list.hpp>
-#include <hdt/containers/contact_list.hpp>
+#include <optimization/containers/opt_variable.hpp>
+#include <optimization/containers/opt_variable_manager.hpp>
+#include <optimization/containers/constraint_list.hpp>
+#include <optimization/containers/contact_list.hpp>
 
-#include <hdt/hard_constraints/constraint_main.hpp>
+#include <optimization/hard_constraints/constraint_main.hpp>
 
 #include <iostream>
 

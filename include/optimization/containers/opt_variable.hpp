@@ -2,7 +2,7 @@
 #define OPT_VARS_H
 
 #include <string>
-#include <hdt/optimization_constants.hpp>
+#include <optimization/optimization_constants.hpp>
 
 class Opt_Variable{
 public:
