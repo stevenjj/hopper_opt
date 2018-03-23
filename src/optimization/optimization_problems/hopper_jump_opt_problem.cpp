@@ -117,7 +117,7 @@ void Hopper_Jump_Opt::initialize_opt_vars(){
 
 		// [torque_u]
 		for(size_t i = 0; i < NUM_ACT_JOINT; i++){
-	        opt_var_manager.append_variable(new Opt_Variable("torque_u_" + std::to_string(i), VAR_TYPE_U, k, 0.0, 100, 100) );
+	        opt_var_manager.append_variable(new Opt_Variable("torque_u_" + std::to_string(i), VAR_TYPE_U, k, 0.0, -100, 100) );
 		}
 
 		// [Fr]
@@ -146,8 +146,8 @@ void Hopper_Jump_Opt::initialize_opt_vars(){
 
 void Hopper_Jump_Opt::initialize_specific_variable_bounds(){
   // Set final position of the base to be at 0.7
-  opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints][0]->l_bound = 0.7 - OPT_ZERO_EPS;
-  opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints][0]->u_bound = 0.7 + OPT_ZERO_EPS;
+  // opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints][0]->l_bound = 0.7 - OPT_ZERO_EPS;
+  // opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints][0]->u_bound = 0.7 + OPT_ZERO_EPS;
 
 }
 
@@ -235,7 +235,7 @@ void Hopper_Jump_Opt::compute_F(std::vector<double> &F_eval){
 
 void Hopper_Jump_Opt::compute_F_constraints(std::vector<double> &F_eval){
   std::vector<double> F_vec_const;
-  std::cout << "[Hopper_Jump_Opt] Computing F Constraints" << std::endl;
+  //std::cout << "[Hopper_Jump_Opt] Computing F Constraints" << std::endl;
 
   // Compute Timestep Dependent Constraints
   for(int knotpoint = 1; knotpoint < N_total_knotpoints + 1; knotpoint++){

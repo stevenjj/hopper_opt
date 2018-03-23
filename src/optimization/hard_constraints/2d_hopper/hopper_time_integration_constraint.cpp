@@ -48,10 +48,6 @@ void Hopper_Back_Euler_Time_Integration_Constraint::evaluate_constraint(const in
 
   integration_constraint = q_state_k - qdot_state_k*h_k - q_state_k_prev;
 
-  sejong::pretty_print(q_state_k, std::cout, "q_state_k");
-  sejong::pretty_print(qdot_state_k, std::cout, "qdot_state_k");
-  sejong::pretty_print(q_state_k_prev, std::cout, "q_state_k_prev");    
-
   for(size_t i = 0; i < integration_constraint.size(); i++){
     //std::cout << " constraint " << i << ", value = " << integration_constraint[i] << std::endl;
     F_vec.push_back(integration_constraint[i]);    

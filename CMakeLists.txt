@@ -71,7 +71,7 @@ set(hopper_constraints src/optimization/hard_constraints/2d_hopper/hopper_dynami
 set(hopper_objective_func_sources src/optimization/objective_functions/2d_hopper/hopper_min_torque_objective_func.cpp)
 
 
-#set(adt_snopt_wrapper_sources src/optimization/adt_snopt_wrapper.cpp)
+set(snopt_wrapper_sources src/optimization/snopt_wrapper.cpp)
 
 
 #--------------------------------------------
@@ -79,6 +79,13 @@ set(hopper_objective_func_sources src/optimization/objective_functions/2d_hopper
 #--------------------------------------------
 add_executable(test_hopper_model  src/small_tests/test_hopper_model.cpp ${hopper_model_sources})
 target_link_libraries(test_hopper_model  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})								 
+#--------------------------------------------
+
+#--------------------------------------------
+# Test Variable Containers Model 
+#--------------------------------------------
+add_executable(test_containers  src/small_tests/test_containers.cpp  ${container_sources})
+target_link_libraries(test_containers  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})					 
 #--------------------------------------------
 
 #--------------------------------------------
@@ -92,14 +99,17 @@ add_executable(test_hopper_opt_obj  src/small_tests/test_hopper_prob_obj.cpp ${h
 )
 target_link_libraries(test_hopper_opt_obj  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})								 
 
-
 #--------------------------------------------
-# Test Variable Containers Model 
+# Test Hopper Jump Optimization
 #--------------------------------------------
-add_executable(test_containers  src/small_tests/test_containers.cpp  ${container_sources})
-target_link_libraries(test_containers  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})					 
-#--------------------------------------------
-
+add_executable(test_hopper_stand_traj  src/small_tests/test_hopper_stand_traj.cpp ${hopper_model_sources}
+										 									  ${container_sources}
+																		      ${hopper_opt_problem_source}
+																		      ${hopper_constraints}
+																		      ${hopper_objective_func_sources}
+																		      ${snopt_wrapper_sources}
+)
+target_link_libraries(test_hopper_stand_traj  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})								 
 
 
 
