@@ -89,10 +89,10 @@ void Hopper_Dynamics_Constraint::evaluate_constraint(const int &knotpoint, Opt_V
   robot_model->getMassInertia(A_mat);
   robot_model->getCoriolis(coriolis);  
   robot_model->getGravity(gravity);  
-  // Update_Contact_Jacobian_Jc(x_state_k); 
+  Update_Contact_Jacobian_Jc(q_state_k); 
 
   // Aqddot + b + g - Jc^T F = Sa^T * torque
-  dynamics_k = A_mat*(qdot_state_k - qdot_state_k_prev)/h_k + coriolis + gravity - Sa.transpose()*u_state_k;
+  dynamics_k = A_mat*(qdot_state_k - qdot_state_k_prev)/h_k + coriolis + gravity - Jc.transpose()*Fr_state_k - Sa.transpose()*u_state_k;
 
   for(size_t i = 0; i < dynamics_k.size(); i++){
     //std::cout << " constraint " << i << ", value = " << dynamics_k[i] << std::endl;

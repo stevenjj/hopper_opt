@@ -5,6 +5,8 @@
 #include <optimization/hard_constraints/2d_hopper/hopper_dynamics_constraint.hpp>
 #include <optimization/hard_constraints/2d_hopper/hopper_time_integration_constraint.hpp>
 
+#include <optimization/contacts/2d_hopper/hopper_foot_contact.hpp>
+
 // #include <adt/contacts/adt_draco_contact_toe.hpp>
 // #include <adt/contacts/adt_draco_contact_heel.hpp>
 
@@ -66,10 +68,12 @@ void Hopper_Jump_Opt::initialize_starting_configuration(){
 }
 
 void Hopper_Jump_Opt::initialize_contact_list(){
+  Hopper_Foot_Contact* foot_contact = new Hopper_Foot_Contact();
+  contact_list.append_contact(foot_contact);
 }
 
 void Hopper_Jump_Opt::initialize_td_constraint_list(){
-	td_constraint_list.append_constraint(new Hopper_Dynamics_Constraint()); 
+	td_constraint_list.append_constraint(new Hopper_Dynamics_Constraint(&contact_list)); 
   td_constraint_list.append_constraint(new Hopper_Back_Euler_Time_Integration_Constraint());
 }
 
