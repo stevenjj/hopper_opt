@@ -70,6 +70,7 @@ set(hopper_constraints src/optimization/hard_constraints/2d_hopper/hopper_dynami
 
 set(hopper_objective_func_sources src/optimization/objective_functions/2d_hopper/hopper_min_torque_objective_func.cpp)
 
+set(hopper_contact_sources src/optimization/contacts/2d_hopper/hopper_foot_contact.cpp)
 
 set(snopt_wrapper_sources src/optimization/snopt_wrapper.cpp)
 
@@ -96,9 +97,17 @@ add_executable(test_hopper_opt_obj  src/small_tests/test_hopper_prob_obj.cpp ${h
 																		 ${hopper_opt_problem_source}
 																		 ${hopper_constraints}
 																		 ${hopper_objective_func_sources}
+  																         ${hopper_contact_sources}
 )
 target_link_libraries(test_hopper_opt_obj  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})								 
 
+#--------------------------------------------
+# Test Contact Object
+#--------------------------------------------
+add_executable(test_hopper_contact_obj  src/small_tests/test_hopper_contact_obj.cpp ${hopper_model_sources}
+																		            ${hopper_contact_sources}
+)
+target_link_libraries(test_hopper_contact_obj  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})								 
 #--------------------------------------------
 # Test Hopper Jump Optimization
 #--------------------------------------------
@@ -107,6 +116,7 @@ add_executable(test_hopper_stand_traj  src/small_tests/test_hopper_stand_traj.cp
 																		      ${hopper_opt_problem_source}
 																		      ${hopper_constraints}
 																		      ${hopper_objective_func_sources}
+																		      ${hopper_contact_sources}
 																		      ${snopt_wrapper_sources}
 )
 target_link_libraries(test_hopper_stand_traj  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})								 
