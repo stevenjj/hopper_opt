@@ -3,7 +3,7 @@
 #include <optimization/optimization_constants.hpp>
 
 #include <optimization/hard_constraints/2d_hopper/hopper_dynamics_constraint.hpp>
-
+#include <optimization/hard_constraints/2d_hopper/hopper_time_integration_constraint.hpp>
 
 // #include <adt/contacts/adt_draco_contact_toe.hpp>
 // #include <adt/contacts/adt_draco_contact_heel.hpp>
@@ -70,6 +70,7 @@ void Hopper_Jump_Opt::initialize_contact_list(){
 
 void Hopper_Jump_Opt::initialize_td_constraint_list(){
 	td_constraint_list.append_constraint(new Hopper_Dynamics_Constraint()); 
+  td_constraint_list.append_constraint(new Hopper_Back_Euler_Time_Integration_Constraint());
 }
 
 void Hopper_Jump_Opt::initialize_ti_constraint_list(){
