@@ -32,13 +32,14 @@ int Contact_Mode_Schedule::get_num_modes(){
 
 int Contact_Mode_Schedule::get_mode(const int &knotpoint){
 	for (size_t m = 0; m < num_modes; m++){
-		if ( (mode_start_times[m] <= knotpoint) && (mode_final_times[m] <= knotpoint)){
+		if ( (mode_start_times[m] <= knotpoint) && (knotpoint <= mode_final_times[m] )){
 			return m;
 		}
 	}
 }
 
 void Contact_Mode_Schedule::get_active_contacts(const int &knotpoint, std::vector<int> &active_contacts_indices_out){
+	active_contacts_indices_out.clear();
 	if (mode_to_active_contacts.size() > 0){
 		active_contacts_indices_out = mode_to_active_contacts[get_mode(knotpoint)];
 	}

@@ -51,6 +51,7 @@ void Hopper_Stand_Opt::Initialization(){
 
 	initialize_starting_configuration();
 	initialize_contact_list();
+  initialize_contact_mode_schedule();
 	initialize_opt_vars();
 	initialize_specific_variable_bounds();
 
@@ -75,15 +76,32 @@ void Hopper_Stand_Opt::initialize_contact_list(){
 }
 
 void Hopper_Stand_Opt::initialize_contact_mode_schedule(){
+  int foot_contact_index = 0;
+  std::vector<int> mode_0_active_contacts; // support phase 
+  std::vector<int> mode_1_active_contacts; // flight phase
+  std::vector<int> mode_2_active_contacts; // support phase
+
+  mode_0_active_contacts.push_back(foot_contact_index);
+  // mode 1 has no active contracts
+  mode_2_active_contacts.push_back(foot_contact_index);
+
+  int mode_0_start_time = 1;  int mode_0_final_time = 2;
+  int mode_1_start_time = 3;  int mode_1_final_time = 4;
+  int mode_2_start_time = 5;  int mode_2_final_time = 6;
+  
+  contact_mode_schedule.add_new_mode(mode_0_start_time, mode_0_final_time, mode_0_active_contacts);
+  contact_mode_schedule.add_new_mode(mode_1_start_time, mode_1_final_time, mode_1_active_contacts);  
+  contact_mode_schedule.add_new_mode(mode_2_start_time, mode_2_final_time, mode_2_active_contacts);  
+
 }
 
 
 void Hopper_Stand_Opt::initialize_td_constraint_list(){
   int foot_contact_index = 0;
-	td_constraint_list.append_constraint(new Hopper_Dynamics_Constraint(&contact_list)); 
-  //td_constraint_list.append_constraint(new Hopper_Hybrid_Dynamics_Constraint(&contact_list, &contact_mode_schedule));   
+	//td_constraint_list.append_constraint(new Hopper_Dynamics_Constraint(&contact_list)); 
+  td_constraint_list.append_constraint(new Hopper_Hybrid_Dynamics_Constraint(&contact_list, &contact_mode_schedule));   
   td_constraint_list.append_constraint(new Hopper_Back_Euler_Time_Integration_Constraint());
-  td_constraint_list.append_constraint(new Hopper_Floor_Contact_LCP_Constraint(&contact_list, foot_contact_index));
+  //td_constraint_list.append_constraint(new Hopper_Floor_Contact_LCP_Constraint(&contact_list, foot_contact_index));
 }
 
 void Hopper_Stand_Opt::initialize_ti_constraint_list(){

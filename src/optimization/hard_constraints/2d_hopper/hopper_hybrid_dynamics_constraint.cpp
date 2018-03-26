@@ -69,6 +69,18 @@ void Hopper_Hybrid_Dynamics_Constraint::set_inactive_contacts_to_zero_force(cons
   std::vector<int> active_contacts;
   contact_mode_schedule_obj->get_active_contacts(knotpoint, active_contacts);
 
+  // std::cout << "" <<std::endl;
+  // std::cout << "Knotpoint = " << knotpoint << " has active contacts with indices: ";
+  // if (active_contacts.size() == 0){
+  //   std::cout << "no active contacts" << std::endl;
+  // }else{
+  //   for (size_t i = 0; i < active_contacts.size(); i++){
+  //     std::cout << active_contacts[i] << ",";
+  //   }
+  //   std::cout << "" <<std::endl;
+  // }
+
+
   // Go through all the contacts. If it is not in the active_contacts list, set the contact forces to 0.
   Contact* current_contact;
   int current_contact_size;
@@ -90,7 +102,7 @@ void Hopper_Hybrid_Dynamics_Constraint::set_inactive_contacts_to_zero_force(cons
 
     // Check if this is an active contact:
     if (!(std::find(active_contacts.begin(), active_contacts.end(), contact_index) != active_contacts.end())) {
-      /* Contact is not in this list */
+      /* Contact index is not in this list */
       // Set the contact forces to 0.
        Fr_all.segment(index_offset, current_contact_size) = sejong::Vector::Zero(current_contact_size);
     }
@@ -120,11 +132,7 @@ void Hopper_Hybrid_Dynamics_Constraint::evaluate_constraint(const int &knotpoint
   var_manager.get_u_states(knotpoint, u_state_k);
   var_manager.get_var_reaction_forces(knotpoint, Fr_state_k);  
 
-
-  // Set reaction forces to 0 if the contact is inactive
   set_inactive_contacts_to_zero_force(knotpoint, Fr_state_k);
-  sejong::pretty_print(Fr_state_k, std::cout, "Inactive contacts");
-
 
   sejong::Matrix A_mat;
   sejong::Vector coriolis;
