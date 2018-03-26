@@ -6,6 +6,7 @@
 #include <optimization/containers/opt_variable_manager.hpp>
 #include <optimization/containers/constraint_list.hpp>
 #include <optimization/containers/contact_list.hpp>
+#include <optimization/containers/contact_mode_schedule.hpp>
 
 #include <optimization/objective_functions/objective_function_main.hpp>
 #include <optimization/objective_functions/2d_hopper/hopper_min_torque_objective_func.hpp>
@@ -22,6 +23,7 @@ public:
   HopperModel*                  robot_model;
 
   Contact_List 								  contact_list;
+  Contact_Mode_Schedule         contact_mode_schedule;
 
   Constraint_List 							td_constraint_list; // Time Dependent Constraint List, exists for all timesteps
   Constraint_List 							ti_constraint_list;	// Time Independent Constraint List, exists for at a particular timestep
@@ -68,6 +70,7 @@ private:
   void Initialization();
   void initialize_starting_configuration();
   void initialize_contact_list();
+  void initialize_contact_mode_schedule();
   void initialize_td_constraint_list();
   void initialize_ti_constraint_list();  
 

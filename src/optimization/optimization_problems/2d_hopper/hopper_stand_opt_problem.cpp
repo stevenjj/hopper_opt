@@ -3,6 +3,7 @@
 #include <optimization/optimization_constants.hpp>
 
 #include <optimization/hard_constraints/2d_hopper/hopper_dynamics_constraint.hpp>
+#include <optimization/hard_constraints/2d_hopper/hopper_hybrid_dynamics_constraint.hpp>
 #include <optimization/hard_constraints/2d_hopper/hopper_time_integration_constraint.hpp>
 #include <optimization/hard_constraints/2d_hopper/hopper_contact_lcp_constraint.hpp>
 
@@ -73,9 +74,14 @@ void Hopper_Stand_Opt::initialize_contact_list(){
   contact_list.append_contact(foot_contact);
 }
 
+void Hopper_Stand_Opt::initialize_contact_mode_schedule(){
+}
+
+
 void Hopper_Stand_Opt::initialize_td_constraint_list(){
   int foot_contact_index = 0;
 	td_constraint_list.append_constraint(new Hopper_Dynamics_Constraint(&contact_list)); 
+  //td_constraint_list.append_constraint(new Hopper_Hybrid_Dynamics_Constraint(&contact_list, &contact_mode_schedule));   
   td_constraint_list.append_constraint(new Hopper_Back_Euler_Time_Integration_Constraint());
   td_constraint_list.append_constraint(new Hopper_Floor_Contact_LCP_Constraint(&contact_list, foot_contact_index));
 }

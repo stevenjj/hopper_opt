@@ -68,7 +68,8 @@ set(hopper_opt_problem_source src/optimization/optimization_problems/2d_hopper/h
 
 set(hopper_constraints src/optimization/hard_constraints/2d_hopper/hopper_dynamics_constraint.cpp
 					   src/optimization/hard_constraints/2d_hopper/hopper_time_integration_constraint.cpp
-					   src/optimization/hard_constraints/2d_hopper/hopper_contact_lcp_constraint.cpp)
+					   src/optimization/hard_constraints/2d_hopper/hopper_contact_lcp_constraint.cpp
+					   src/optimization/hard_constraints/2d_hopper/hopper_hybrid_dynamics_constraint.cpp)
 
 set(hopper_objective_func_sources src/optimization/objective_functions/2d_hopper/hopper_min_torque_objective_func.cpp)
 

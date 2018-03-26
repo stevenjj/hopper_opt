@@ -39,5 +39,7 @@ int Contact_Mode_Schedule::get_mode(const int &knotpoint){
 }
 
 void Contact_Mode_Schedule::get_active_contacts(const int &knotpoint, std::vector<int> &active_contacts_indices_out){
-	active_contacts_indices_out = mode_to_active_contacts[get_mode(knotpoint)];
+	if (mode_to_active_contacts.size() > 0){
+		active_contacts_indices_out = mode_to_active_contacts[get_mode(knotpoint)];
+	}
 }
