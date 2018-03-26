@@ -61,7 +61,8 @@ set(hopper_model_sources src/hopper_dynamic_model/Hopper_Definition.h
 set(container_sources src/optimization/containers/opt_variable.cpp
 						  src/optimization/containers/opt_variable_manager.cpp
 						  src/optimization/containers/constraint_list.cpp
-						  src/optimization/containers/contact_list.cpp)
+						  src/optimization/containers/contact_list.cpp
+						  src/optimization/containers/contact_mode_schedule.cpp)
 
 set(hopper_opt_problem_source src/optimization/optimization_problems/2d_hopper/hopper_stand_opt_problem.cpp)
 

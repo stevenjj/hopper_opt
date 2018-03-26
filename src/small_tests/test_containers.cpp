@@ -3,6 +3,7 @@
 #include <optimization/containers/opt_variable_manager.hpp>
 #include <optimization/containers/constraint_list.hpp>
 #include <optimization/containers/contact_list.hpp>
+#include <optimization/containers/contact_mode_schedule.hpp>
 
 #include <optimization/hard_constraints/constraint_main.hpp>
 
@@ -60,6 +61,25 @@ int main(int argc, char **argv){
 
 
 	std::cout << " " << std::endl;
+
+	std::cout << "[Main] Testing Contact Mode Schedule Container" << std::endl;
+
+
+	int foot_contact_index = 0;
+	int toe_contact_index = 1;	
+	Contact_Mode_Schedule mode_schedule;
+	
+	std::vector<int> mode_0_contacts;
+	std::vector<int> mode_1_contacts;	
+	mode_1_contacts.push_back(foot_contact_index);
+	mode_1_contacts.push_back(toe_contact_index);
+
+	int mode_0_start_time = 0; 	int mode_0_final_time = 3;
+	int mode_1_start_time = 4; 	int mode_1_final_time = 7;
+
+	mode_schedule.add_new_mode(mode_0_start_time, mode_0_final_time, mode_0_contacts);
+	mode_schedule.add_new_mode(mode_1_start_time, mode_1_final_time, mode_1_contacts);	
+
 
 	return 0;
 }
