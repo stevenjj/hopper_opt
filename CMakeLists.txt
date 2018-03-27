@@ -64,7 +64,8 @@ set(container_sources src/optimization/containers/opt_variable.cpp
 						  src/optimization/containers/contact_list.cpp
 						  src/optimization/containers/contact_mode_schedule.cpp)
 
-set(hopper_opt_problem_source src/optimization/optimization_problems/2d_hopper/hopper_stand_opt_problem.cpp)
+set(hopper_opt_stand_problem_source src/optimization/optimization_problems/2d_hopper/hopper_stand_opt_problem.cpp)
+set(hopper_opt_jump_problem_source src/optimization/optimization_problems/2d_hopper/hopper_jump_opt_problem.cpp)
 
 set(hopper_constraints src/optimization/hard_constraints/2d_hopper/hopper_dynamics_constraint.cpp
 					   src/optimization/hard_constraints/2d_hopper/hopper_time_integration_constraint.cpp
@@ -98,7 +99,7 @@ target_link_libraries(test_containers  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt}
 #--------------------------------------------
 add_executable(test_hopper_opt_obj  src/small_tests/test_hopper_prob_obj.cpp ${hopper_model_sources}
 																		 ${container_sources}
-																		 ${hopper_opt_problem_source}
+																		 ${hopper_opt_stand_problem_source}
 																		 ${hopper_constraints}
 																		 ${hopper_objective_func_sources}
   																         ${hopper_contact_sources}
@@ -112,18 +113,39 @@ add_executable(test_hopper_contact_obj  src/small_tests/test_hopper_contact_obj.
 																		            ${hopper_contact_sources}
 )
 target_link_libraries(test_hopper_contact_obj  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})								 
+
+
+
 #--------------------------------------------
-# Test Hopper Jump Optimization
+# Test Hopper Stand Optimization
 #--------------------------------------------
 add_executable(test_hopper_stand_traj  src/small_tests/test_hopper_stand_traj.cpp ${hopper_model_sources}
 										 									  ${container_sources}
-																		      ${hopper_opt_problem_source}
+																		      ${hopper_opt_stand_problem_source}
 																		      ${hopper_constraints}
 																		      ${hopper_objective_func_sources}
 																		      ${hopper_contact_sources}
 																		      ${snopt_wrapper_sources}
 )
 target_link_libraries(test_hopper_stand_traj  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})								 
+
+
+
+#--------------------------------------------
+# Test Hopper Jump Optimization
+#--------------------------------------------
+add_executable(test_hopper_jump_traj  src/small_tests/test_hopper_jump_traj.cpp ${hopper_model_sources}
+										 									  ${container_sources}
+																		      ${hopper_opt_jump_problem_source}
+																		      ${hopper_constraints}
+																		      ${hopper_objective_func_sources}
+																		      ${hopper_contact_sources}
+																		      ${snopt_wrapper_sources}
+)
+target_link_libraries(test_hopper_jump_traj  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})								 
+
+
+
 
 
 
