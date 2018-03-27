@@ -19,3 +19,11 @@ void Hopper_Foot_Contact::getContactJacobian(const sejong::Vector &q_state, sejo
 void Hopper_Foot_Contact::getContactJacobianDotQdot(const sejong::Vector &q_state, 
   							  			  const sejong::Vector &qdot_state, sejong::Vector & JtDotQdot){
 }
+
+void Hopper_Foot_Contact::signed_distance_to_contact(const sejong::Vector &q_state, double &distance){
+	sejong::Vector pos_vec;
+    robot_model->getPosition(q_state, contact_link_id, pos_vec) ;	
+
+    // floor contact with the ground
+	distance = pos_vec[0];
+}

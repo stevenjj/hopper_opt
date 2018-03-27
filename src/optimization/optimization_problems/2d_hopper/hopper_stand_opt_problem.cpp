@@ -6,6 +6,8 @@
 #include <optimization/hard_constraints/2d_hopper/hopper_hybrid_dynamics_constraint.hpp>
 #include <optimization/hard_constraints/2d_hopper/hopper_time_integration_constraint.hpp>
 #include <optimization/hard_constraints/2d_hopper/hopper_contact_lcp_constraint.hpp>
+#include <optimization/hard_constraints/2d_hopper/hopper_active_contact_kinematic_constraint.hpp>
+
 
 #include <optimization/contacts/2d_hopper/hopper_foot_contact.hpp>
 
@@ -105,6 +107,22 @@ void Hopper_Stand_Opt::initialize_td_constraint_list(){
 }
 
 void Hopper_Stand_Opt::initialize_ti_constraint_list(){
+  // Initialize mode schedule kinematic constraints
+  std::vector<int> active_contacts;
+  int contact_index;
+  for (size_t knotpoint = 1; knotpoint < N_total_knotpoints + 1; knotpoint++){
+    active_contacts.clear();
+    // Get active contacts list
+    contact_mode_schedule.get_active_contacts(knotpoint, active_contacts);
+
+    //for each active contact, add the kinematic constraint for having this contact active
+    for(int i = 0; i < active_contacts.size(); i++){
+      contact_index = active_contacts[i];
+      ti_constraint_list.append_constraint(new Active_Contact_Kinematic_Constraint(knotpoint, &contact_list, contact_index));
+    }
+
+  }
+
 }
 
 
@@ -148,7 +166,7 @@ void Hopper_Stand_Opt::initialize_opt_vars(){
 
 		// [torque_u]
 		for(size_t i = 0; i < NUM_ACT_JOINT; i++){
-	        opt_var_manager.append_variable(new Opt_Variable("torque_u_" + std::to_string(i), VAR_TYPE_U, k, 0.0, -100, 100) );
+	        opt_var_manager.append_variable(new Opt_Variable("torque_u_" + std::to_string(i), VAR_TYPE_U, k, 0.0, -1000, 1000) );
 		}
 
 		// [Fr]
@@ -180,12 +198,12 @@ void Hopper_Stand_Opt::initialize_opt_vars(){
 
 void Hopper_Stand_Opt::initialize_specific_variable_bounds(){
   // Jump at half way
-  // opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints/2][0]->l_bound = 0.7;
-  // opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints/2][0]->u_bound = OPT_INFINITY;
+  opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints/2][0]->l_bound = 2.0;
+  opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints/2][0]->u_bound = OPT_INFINITY;
 
   //Set final position of the base to be at 0.7
-  opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints][0]->l_bound = 0.7 - OPT_ZERO_EPS;
-  opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints][0]->u_bound = 0.7 + OPT_ZERO_EPS;
+  // opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints][0]->l_bound = 0.7 - OPT_ZERO_EPS;
+  // opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints][0]->u_bound = 0.7 + OPT_ZERO_EPS;
 
   opt_var_manager.knotpoint_to_qdot_state_vars[N_total_knotpoints][0]->l_bound = -OPT_ZERO_EPS;
   opt_var_manager.knotpoint_to_qdot_state_vars[N_total_knotpoints][0]->u_bound = +OPT_ZERO_EPS;

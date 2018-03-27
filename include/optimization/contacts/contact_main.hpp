@@ -13,6 +13,9 @@ public:
   std::string contact_name = "Undefined Contact";
   int contact_dim;
   int contact_link_id;
+
+  virtual void signed_distance_to_contact(const sejong::Vector &q_state, double &distance){}
+  sejong::Vector contact_pos; // contact position
 };
 
 #endif

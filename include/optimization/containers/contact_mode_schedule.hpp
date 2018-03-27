@@ -11,7 +11,7 @@ public:
 	~Contact_Mode_Schedule();	
 
 	void add_new_mode(const int &mode_start_time, const int &mode_final_time, std::vector<int> &active_contacts_indices);	
-	void get_active_contacts(const int &mode, std::vector<int> &active_contacts_indices_out);
+	void get_active_contacts(const int &knotpoint, std::vector<int> &active_contacts_indices_out);
 	int get_mode(const int &knotpoint);
 	int get_num_modes();
 
