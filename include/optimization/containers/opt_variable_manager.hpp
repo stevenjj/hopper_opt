@@ -61,6 +61,10 @@ public:
 	int get_num_q_vars();
 	int get_num_qdot_vars();
 	int get_num_xddot_vars();
+
+	int get_num_x_vars();
+	int get_num_xdot_vars();
+
 	int get_num_Fr_vars();
 	int get_num_keyframe_vars();		
 	int get_num_beta_vars();			
@@ -115,6 +119,8 @@ private:
 	int num_q_vars = 0;
 	int num_qdot_vars = 0;
 	int num_xddot_vars = 0;
+	int num_x_vars = 0;
+	int num_xdot_vars = 0;
 	int num_Fr_vars = 0;
 	int num_keyframe_vars = 0;
 

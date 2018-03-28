@@ -44,7 +44,7 @@ Hopper_Act_Jump_Opt::~Hopper_Act_Jump_Opt(){
 void Hopper_Act_Jump_Opt::Initialization(){
   combined_model = Hopper_Combined_Dynamics_Model::GetCombinedModel();
 
-  N_total_knotpoints = 9; //6;
+  N_total_knotpoints = 3; //6;
 
   h_dt_min = 0.001; // Minimum knotpoint timestep
   max_normal_force = 1e10;//10000; // Newtons
@@ -99,12 +99,9 @@ void Hopper_Act_Jump_Opt::initialize_contact_mode_schedule(){
 
 void Hopper_Act_Jump_Opt::initialize_ti_constraint_list(){
   int foot_contact_index = 0;
-  //ti_constraint_list.append_constraint(new Hopper_Dynamics_Constraint(&contact_list)); 
   // ti_constraint_list.append_constraint(new Hopper_Hybrid_Dynamics_Constraint(&contact_list, &contact_mode_schedule));   
   // ti_constraint_list.append_constraint(new Hopper_Back_Euler_Time_Integration_Constraint());
   // ti_constraint_list.append_constraint(new Hopper_Position_Kinematic_Constraint(SJ_Hopper_LinkID::LK_foot, Z_DIM, 0, OPT_INFINITY));
-
-  //ti_constraint_list.append_constraint(new Hopper_Floor_Contact_LCP_Constraint(&contact_list, foot_contact_index));
 }
 
 void Hopper_Act_Jump_Opt::initialize_td_constraint_list(){
@@ -162,7 +159,7 @@ void Hopper_Act_Jump_Opt::initialize_opt_vars(){
   }
 
   // set variable manager initial condition offset = NUM_VIRTUAL*2 + (NUM_STATES_PER_ACTUATOR*NUM_ACT)*2 
-  int initial_conditions_offset = NUM_Q + NUM_QDOT;
+  int initial_conditions_offset = (NUM_VIRTUAL + (NUM_STATES_PER_ACTUATOR*NUM_ACT_JOINT))*2 ;
   std::cout << "[Hopper_Act_Jump_Opt] Predicted Number of states : " << initial_conditions_offset << std::endl;
   std::cout << "[Hopper_Act_Jump_Opt] Actual : " << opt_var_manager.get_size() << std::endl;   
   // ****
@@ -179,7 +176,7 @@ void Hopper_Act_Jump_Opt::initialize_opt_vars(){
 
       opt_var_manager.append_variable(new Opt_Variable("xdot_state_virt" + std::to_string(0), VAR_TYPE_XDOT, k, 0.0, -10, 10) );
       opt_var_manager.append_variable(new Opt_Variable("xdot_state_act" + std::to_string(1), VAR_TYPE_XDOT, k, 0.0, -10, 10) );
-      opt_var_manager.append_variable(new Opt_Variable("xdot_state_act_delta" + std::to_string(1), VAR_TYPE_XDOT, k, 0.0, -10, 10) );
+      opt_var_manager.append_variable(new Opt_Variable("xdot_state_act_delta" + std::to_string(2), VAR_TYPE_XDOT, k, 0.0, -10, 10) );
 
     // [current_u]
     for(size_t i = 0; i < NUM_ACT_JOINT; i++){
@@ -205,11 +202,10 @@ void Hopper_Act_Jump_Opt::initialize_opt_vars(){
   // ****
   opt_var_manager.compute_size_time_dep_vars();
   // ****
-  int size_of_time_dep_vars = NUM_Q + NUM_QDOT + contact_list.get_size() + N_total_knotpoints;
-  std::cout << "[Hopper_Act_Jump_Opt] Predicted Size of Time Dependent Vars : " << size_of_time_dep_vars << std::endl;
-  std::cout << "[Hopper_Act_Jump_Opt] Actual : " << opt_var_manager.get_size_timedependent_vars() << std::endl;  
+  int size_of_time_dep_vars = (NUM_VIRTUAL + (NUM_STATES_PER_ACTUATOR*NUM_ACT_JOINT))*2 + NUM_ACT_JOINT + contact_list.get_size() + 1;
+  std::cout << "[Hopper_Act_Jump_Opt] Size of Time Dependent Vars : " << size_of_time_dep_vars << std::endl;
   int predicted_size_of_F = size_of_time_dep_vars*N_total_knotpoints;
-  std::cout << "[Hopper_Act_Jump_Opt] Predicted Size of Opt Vars: " << predicted_size_of_F << std::endl;
+  std::cout << "[Hopper_Act_Jump_Opt] Size of Opt Vars: " << predicted_size_of_F << std::endl;
 
 }
 

@@ -209,6 +209,14 @@ int Opt_Variable_Manager::get_num_qdot_vars(){
 int Opt_Variable_Manager::get_num_xddot_vars(){
 	return num_xddot_vars;
 }
+
+int Opt_Variable_Manager::get_num_x_vars(){
+	return num_x_vars;
+}
+int Opt_Variable_Manager::get_num_xdot_vars(){
+	return num_xdot_vars;
+}
+
 int Opt_Variable_Manager::get_num_Fr_vars(){
 	return num_Fr_vars;
 }
@@ -244,6 +252,8 @@ void Opt_Variable_Manager::compute_size_time_dep_vars(){
 	num_q_vars = count_num_vars_in_map(knotpoint, knotpoint_to_q_state_vars);
 	num_qdot_vars = count_num_vars_in_map(knotpoint, knotpoint_to_qdot_state_vars);
 	num_xddot_vars = count_num_vars_in_map(knotpoint, knotpoint_to_xddot_vars);
+	num_x_vars = count_num_vars_in_map(knotpoint, knotpoint_to_x_vars);
+	num_xdot_vars = count_num_vars_in_map(knotpoint, knotpoint_to_xdot_vars);
 	num_Fr_vars = count_num_vars_in_map(knotpoint, knotpoint_to_Fr_vars);
 	num_keyframe_vars = count_num_vars_in_map(knotpoint, knotpoint_to_keyframe_vars);
 
@@ -272,7 +282,7 @@ void Opt_Variable_Manager::compute_size_time_dep_vars(){
 	std::cout << "num_beta_vars = " << num_beta_vars << std::endl;
 	std::cout << "num_h = " << num_h << std::endl;
 */
-	num_timedep_vars = num_q_vars + num_qdot_vars + num_xddot_vars + num_Fr_vars
+	num_timedep_vars = num_q_vars + num_qdot_vars + num_xddot_vars + num_x_vars + num_xdot_vars + num_Fr_vars
 					   + num_keyframe_vars
 					   + num_z_vars
 					   + num_zdot_vars
