@@ -44,6 +44,9 @@ public:
 	void get_qddot_virt_states(const int &knotpoint, sejong::Vector &qddot_virt_states);				
 	void get_xddot_all_states(const int &knotpoint, sejong::Vector &xddot_all);
 
+	void get_x_states(const int &knotpoint, sejong::Vector &x_state);		
+	void get_xdot_states(const int &knotpoint, sejong::Vector &xdot_state);			
+
 	int get_size();
 	int get_size_timedependent_vars();
 
@@ -90,7 +93,8 @@ public:
 	std::map<int, std::vector<Opt_Variable*> > knotpoint_to_qddot_virt_vars;
 	std::map<int, std::vector<Opt_Variable*> > knotpoint_to_xddot_all_vars;	
 
-
+	std::map<int, std::vector<Opt_Variable*> > knotpoint_to_x_vars;	
+	std::map<int, std::vector<Opt_Variable*> > knotpoint_to_xdot_vars;	
 
 
 	std::vector<Opt_Variable*> knotpoint_to_dt;

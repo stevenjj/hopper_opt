@@ -19,8 +19,18 @@ Hopper_Act_Jump_Opt::Hopper_Act_Jump_Opt(){
   robot_q_init.resize(NUM_Q); 
   robot_qdot_init.resize(NUM_QDOT); 
 
+  act_z_init.resize(NUM_ACT_JOINT);
+  act_zdot_init.resize(NUM_ACT_JOINT);
+  act_delta_init.resize(NUM_ACT_JOINT);
+  act_delta_dot_init.resize(NUM_ACT_JOINT);
+
   robot_q_init.setZero(); 
   robot_qdot_init.setZero();
+  act_z_init.setZero();
+  act_zdot_init.setZero();
+  act_delta_init.setZero();
+  act_delta_dot_init.setZero();
+
 
   Initialization();
 }
@@ -46,7 +56,6 @@ void Hopper_Act_Jump_Opt::Initialization(){
   initialize_opt_vars();
   initialize_specific_variable_bounds();
 
-
   initialize_ti_constraint_list();
   initialize_td_constraint_list();
   initialize_objective_func();
@@ -55,10 +64,11 @@ void Hopper_Act_Jump_Opt::Initialization(){
 void Hopper_Act_Jump_Opt::initialize_starting_configuration(){
  // Set Virtual Joints
   // z_virt
-  robot_q_init[0] = 0.5;
+  robot_q_init[0] = 0.65;
   // z_leg
   robot_q_init[1] = -robot_q_init[0];
 
+  combined_model->actuator_model->getFull_act_pos_z(robot_q_init.tail(NUM_ACT_JOINT), act_z_init);
 }
 
 void Hopper_Act_Jump_Opt::initialize_contact_list(){
@@ -129,13 +139,26 @@ void Hopper_Act_Jump_Opt::initialize_opt_vars(){
   // Set Initial Conditions
   // ------------------------------------------------------------
   // At knotpoint 0, we initialize the joint positions of the robot.
-  // [q]
-  for(size_t i = 0; i < NUM_Q; i++){
-        opt_var_manager.append_variable(new Opt_Variable("q_state_" + std::to_string(i), VAR_TYPE_Q, 0, robot_q_init[i], robot_q_init[i] - OPT_ZERO_EPS, robot_q_init[i] + OPT_ZERO_EPS) );
-     } 
-  // [qdot]
-  for(size_t i = 0; i < NUM_QDOT; i++){
-      opt_var_manager.append_variable(new Opt_Variable("qdot_state_" + std::to_string(i), VAR_TYPE_QDOT, 0, robot_qdot_init[i], robot_qdot_init[i] - OPT_ZERO_EPS, robot_qdot_init[i] + OPT_ZERO_EPS) );
+  // [x]
+  for(size_t i = 0; i < NUM_VIRTUAL; i++){
+        opt_var_manager.append_variable(new Opt_Variable("x_state_virt" + std::to_string(i), VAR_TYPE_X, 0, robot_q_init[i], robot_q_init[i] - OPT_ZERO_EPS, robot_q_init[i] + OPT_ZERO_EPS) );
+  } 
+  for(size_t i = 0; i < NUM_ACT_JOINT; i++){
+        opt_var_manager.append_variable(new Opt_Variable("x_state_act" + std::to_string(i), VAR_TYPE_X, 0, act_z_init[i], act_z_init[i] - OPT_ZERO_EPS, act_z_init[i] + OPT_ZERO_EPS) );
+  }
+  for(size_t i = 0; i < NUM_ACT_JOINT; i++){
+        opt_var_manager.append_variable(new Opt_Variable("x_state_act_delta" + std::to_string(i), VAR_TYPE_X, 0, act_delta_init[i], act_delta_init[i] - OPT_ZERO_EPS, act_delta_init[i] + OPT_ZERO_EPS) );
+  }    
+
+  // [xdot]
+  for(size_t i = 0; i < NUM_VIRTUAL; i++){
+      opt_var_manager.append_variable(new Opt_Variable("xdot_state_virt" + std::to_string(i), VAR_TYPE_XDOT, 0, robot_qdot_init[i], robot_qdot_init[i] - OPT_ZERO_EPS, robot_qdot_init[i] + OPT_ZERO_EPS) );
+  }
+  for(size_t i = 0; i < NUM_ACT_JOINT; i++){
+        opt_var_manager.append_variable(new Opt_Variable("x_state_act" + std::to_string(i), VAR_TYPE_XDOT, 0, act_zdot_init[i], act_zdot_init[i] - OPT_ZERO_EPS, act_zdot_init[i] + OPT_ZERO_EPS) );
+  }
+  for(size_t i = 0; i < NUM_ACT_JOINT; i++){
+        opt_var_manager.append_variable(new Opt_Variable("x_state_act_delta" + std::to_string(i), VAR_TYPE_XDOT, 0, act_delta_dot_init[i], act_delta_dot_init[i] - OPT_ZERO_EPS, act_delta_dot_init[i] + OPT_ZERO_EPS) );
   }
 
   // set variable manager initial condition offset = NUM_VIRTUAL*2 + (NUM_STATES_PER_ACTUATOR*NUM_ACT)*2 
@@ -150,14 +173,17 @@ void Hopper_Act_Jump_Opt::initialize_opt_vars(){
   // Set Time Independent Variables
   // ------------------------------------------------------------------
   for(size_t k = 1; k < N_total_knotpoints + 1; k++){
-      opt_var_manager.append_variable(new Opt_Variable("q_state_" + std::to_string(0), VAR_TYPE_Q, k, robot_q_init[0], 0, 10) );
-      opt_var_manager.append_variable(new Opt_Variable("q_state_" + std::to_string(1), VAR_TYPE_Q, k, robot_q_init[1], -0.75, 0.0) );
-      opt_var_manager.append_variable(new Opt_Variable("qdot_state_" + std::to_string(0), VAR_TYPE_QDOT, k, 0.0, -10, 10) );
-      opt_var_manager.append_variable(new Opt_Variable("qdot_state_" + std::to_string(1), VAR_TYPE_QDOT, k, 0.0, -10, 10) );
+      opt_var_manager.append_variable(new Opt_Variable("x_state_virt" + std::to_string(0), VAR_TYPE_X, k, robot_q_init[0], 0, 10) );
+      opt_var_manager.append_variable(new Opt_Variable("x_state_act" + std::to_string(1), VAR_TYPE_X, k, act_z_init[0], combined_model->actuator_model->z_l_bound[0], combined_model->actuator_model->z_u_bound[0]) );
+      opt_var_manager.append_variable(new Opt_Variable("x_state_act_delta" + std::to_string(2), VAR_TYPE_X, k, act_delta_init[0], -0.025, 0.025) );
 
-    // [torque_u]
+      opt_var_manager.append_variable(new Opt_Variable("xdot_state_virt" + std::to_string(0), VAR_TYPE_XDOT, k, 0.0, -10, 10) );
+      opt_var_manager.append_variable(new Opt_Variable("xdot_state_act" + std::to_string(1), VAR_TYPE_XDOT, k, 0.0, -10, 10) );
+      opt_var_manager.append_variable(new Opt_Variable("xdot_state_act_delta" + std::to_string(1), VAR_TYPE_XDOT, k, 0.0, -10, 10) );
+
+    // [current_u]
     for(size_t i = 0; i < NUM_ACT_JOINT; i++){
-          opt_var_manager.append_variable(new Opt_Variable("torque_u_" + std::to_string(i), VAR_TYPE_U, k, 0.0, -1000, 1000) );
+          opt_var_manager.append_variable(new Opt_Variable("current_u_" + std::to_string(i), VAR_TYPE_U, k, 0.0, -1000, 1000) );
     }
 
     // [Fr]
@@ -189,15 +215,15 @@ void Hopper_Act_Jump_Opt::initialize_opt_vars(){
 
 void Hopper_Act_Jump_Opt::initialize_specific_variable_bounds(){
   // Jump at half way
-  // opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints/2][0]->l_bound = 2.0;
-  // opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints/2][0]->u_bound = OPT_INFINITY;
+  // opt_var_manager.knotpoint_to_x_vars[N_total_knotpoints/2][0]->l_bound = 2.0;
+  // opt_var_manager.knotpoint_to_x_vars[N_total_knotpoints/2][0]->u_bound = OPT_INFINITY;
 
   //Set final position of the base to be at 0.7
-  // opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints][0]->l_bound = 0.7 - OPT_ZERO_EPS;
-  // opt_var_manager.knotpoint_to_q_state_vars[N_total_knotpoints][0]->u_bound = 0.7 + OPT_ZERO_EPS;
+  // opt_var_manager.knotpoint_to_x_vars[N_total_knotpoints][0]->l_bound = 0.7 - OPT_ZERO_EPS;
+  // opt_var_manager.knotpoint_to_x_vars[N_total_knotpoints][0]->u_bound = 0.7 + OPT_ZERO_EPS;
 
-  opt_var_manager.knotpoint_to_qdot_state_vars[N_total_knotpoints][0]->l_bound = -OPT_ZERO_EPS;
-  opt_var_manager.knotpoint_to_qdot_state_vars[N_total_knotpoints][0]->u_bound = +OPT_ZERO_EPS;
+  opt_var_manager.knotpoint_to_xdot_vars[N_total_knotpoints][0]->l_bound = -OPT_ZERO_EPS;
+  opt_var_manager.knotpoint_to_xdot_vars[N_total_knotpoints][0]->u_bound = +OPT_ZERO_EPS;
 
 }
 

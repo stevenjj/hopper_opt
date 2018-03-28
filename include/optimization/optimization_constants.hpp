@@ -25,8 +25,11 @@
   #define VAR_TYPE_QDDOT_VIRT 12 // virtual joint acceleration
   #define VAR_TYPE_XDDOT_ALL 13 // virtual virtual, and actuator accelerations
 
-  #define VAR_TYPE_ALPHA 14 // alpha_lcp_constraint
-  #define VAR_TYPE_GAMMA 15 // beta_lcp_constraint
+  #define VAR_TYPE_X     14 // general x configuration variable
+  #define VAR_TYPE_XDOT  15 // general xdot configuration variable
+
+  #define VAR_TYPE_ALPHA 16 // alpha_lcp_constraint
+  #define VAR_TYPE_GAMMA 17 // beta_lcp_constraint
 
   #define ND_2D_CONST 2 // Number of friction cone basis vectors for a 2D plane. This number is fixed.
   #define CALC_F_MODE 0 // Decides if we are computing F
