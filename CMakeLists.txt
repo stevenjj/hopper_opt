@@ -79,7 +79,8 @@ set(hopper_constraints src/optimization/hard_constraints/2d_hopper/hopper_dynami
 
 
 set(hopper_act_constraints src/optimization/hard_constraints/2d_hopper_act/hopper_act_hybrid_dynamics_constraint.cpp
-						   src/optimization/hard_constraints/2d_hopper_act/hopper_act_time_integration_constraint.cpp)
+						   src/optimization/hard_constraints/2d_hopper_act/hopper_act_time_integration_constraint.cpp
+						   src/optimization/hard_constraints/2d_hopper_act/hopper_act_position_kinematic_constraint.cpp)
 
 
 set(hopper_objective_func_sources src/optimization/objective_functions/2d_hopper/hopper_min_torque_objective_func.cpp)

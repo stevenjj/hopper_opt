@@ -4,6 +4,7 @@
 
 #include <optimization/hard_constraints/2d_hopper_act/hopper_act_hybrid_dynamics_constraint.hpp>
 #include <optimization/hard_constraints/2d_hopper_act/hopper_act_time_integration_constraint.hpp>
+#include <optimization/hard_constraints/2d_hopper_act/hopper_act_position_kinematic_constraint.hpp>
 
 // #include <optimization/hard_constraints/2d_hopper/hopper_time_integration_constraint.hpp>
 // #include <optimization/hard_constraints/2d_hopper/hopper_active_contact_kinematic_constraint.hpp>
@@ -101,7 +102,7 @@ void Hopper_Act_Jump_Opt::initialize_ti_constraint_list(){
   int foot_contact_index = 0;
   ti_constraint_list.append_constraint(new Hopper_Act_Hybrid_Dynamics_Constraint(&contact_list, &contact_mode_schedule));   
   ti_constraint_list.append_constraint(new Hopper_Act_Back_Euler_Time_Integration_Constraint());
-  // ti_constraint_list.append_constraint(new Hopper_Position_Kinematic_Constraint(SJ_Hopper_LinkID::LK_foot, Z_DIM, 0, OPT_INFINITY));
+  ti_constraint_list.append_constraint(new Hopper_Act_Position_Kinematic_Constraint(SJ_Hopper_LinkID::LK_foot, Z_DIM, 0, OPT_INFINITY));
 }
 
 void Hopper_Act_Jump_Opt::initialize_td_constraint_list(){
@@ -188,8 +189,6 @@ void Hopper_Act_Jump_Opt::initialize_opt_vars(){
       // Apply normal force constraints on z direction            
         opt_var_manager.append_variable(new Opt_Variable("Fr_z_" + std::to_string(i), VAR_TYPE_FR, k, 0.0, 0.0, max_normal_force) );
         // Each LCP contact has an alpha (phi(q)) and gamma (Phi(q)*Fr)
-        // opt_var_manager.append_variable(new Opt_Variable("alpha_c" + std::to_string(i) , VAR_TYPE_ALPHA, k, 0.0, 0.0, OPT_INFINITY) );        
-        // opt_var_manager.append_variable(new Opt_Variable("gamma_c" + std::to_string(i) , VAR_TYPE_GAMMA, k, 0.0, 0.0, OPT_INFINITY) );
     }
     
     // [h_dt] knotpoint timestep
