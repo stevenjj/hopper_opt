@@ -195,6 +195,24 @@ add_executable(test_hopper_jump_traj  src/small_tests/test_hopper_jump_traj.cpp 
 target_link_libraries(test_hopper_jump_traj  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})								 
 
 
+#--------------------------------------------
+# Test Hopper Act Jump Optimization
+#--------------------------------------------
+add_executable(test_hopper_act_jump_traj  src/small_tests/test_hopper_act_jump_traj.cpp ${container_sources}
+																		          ${hopper_combined_dynamics_model_sources}
+																		          ${hopper_model_sources}
+																		          ${hopper_actuator_model_sources}
+																		          ${hopper_act_opt_jump_problem_source}
+  																         		  ${hopper_act_objective_func_sources}
+  																         		  ${hopper_contact_sources}
+  																         		  ${hopper_act_constraints}
+  																         		  ${snopt_wrapper_sources} 
+)
+target_link_libraries(test_hopper_act_jump_traj  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})								 
+
+
+
+
 
 
 

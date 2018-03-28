@@ -143,7 +143,7 @@ void Hopper_Act_Hybrid_Dynamics_Constraint::evaluate_constraint(const int &knotp
   combined_model->getDynamics_constraint(x_state_k, xdot_state_k, xdot_state_k_prev, u_state_k, Fr_state_k, h_k, dynamics_k);
 
   for(size_t i = 0; i < dynamics_k.size(); i++){
-    std::cout << "dynamics constraint " << i << ", value = " << dynamics_k[i] << std::endl;
+    //std::cout << "dynamics constraint " << i << ", value = " << dynamics_k[i] << std::endl;
     F_vec.push_back(dynamics_k[i]);    
   }
 

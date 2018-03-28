@@ -59,8 +59,8 @@ void Hopper_Act_Position_Kinematic_Constraint::evaluate_constraint(const int &kn
 	combined_model->robot_model->UpdateModel(q_state, qdot_state);
 	combined_model->robot_model->getPosition(q_state, link_id, pos);
 
-	sejong::pretty_print(q_state, std::cout, "q_state");
-	sejong::pretty_print(pos, std::cout, "pos");	
+	// sejong::pretty_print(q_state, std::cout, "q_state");
+	// sejong::pretty_print(pos, std::cout, "pos");	
 
 	F_vec.push_back(pos[dim]);
 }

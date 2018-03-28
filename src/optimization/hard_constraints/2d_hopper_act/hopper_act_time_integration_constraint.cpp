@@ -48,7 +48,7 @@ void Hopper_Act_Back_Euler_Time_Integration_Constraint::evaluate_constraint(cons
   integration_constraint = x_state_k - xdot_state_k*h_k - x_state_k_prev;
 
   for(size_t i = 0; i < integration_constraint.size(); i++){
-    std::cout << "integration constraint " << i << ", value = " << integration_constraint[i] << std::endl;    
+    //std::cout << "integration constraint " << i << ", value = " << integration_constraint[i] << std::endl;    
     F_vec.push_back(integration_constraint[i]);    
   }
 

@@ -88,7 +88,7 @@ void HopperActuatorModel::Initialization(){
 	q_l_bound[SJ_Hopper_ActuatorID::act_leg_extend] = -0.75;
 
 	// Upper Bound of joint configuration
-	q_u_bound[SJ_Hopper_ActuatorID::act_leg_extend] = 0.25;
+	q_u_bound[SJ_Hopper_ActuatorID::act_leg_extend] = 0.0;
 
 	getFull_act_pos_z(q_l_bound, z_l_bound);
 	getFull_act_pos_z(q_u_bound, z_u_bound);	
