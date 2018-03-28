@@ -7,7 +7,7 @@
 #include <optimization/hard_constraints/2d_hopper/hopper_time_integration_constraint.hpp>
 #include <optimization/hard_constraints/2d_hopper/hopper_contact_lcp_constraint.hpp>
 #include <optimization/hard_constraints/2d_hopper/hopper_active_contact_kinematic_constraint.hpp>
-
+#include <optimization/hard_constraints/2d_hopper/hopper_position_kinematic_constraint.hpp>
 
 #include <optimization/contacts/2d_hopper/hopper_foot_contact.hpp>
 
@@ -45,7 +45,7 @@ Hopper_Jump_Opt::~Hopper_Jump_Opt(){
 void Hopper_Jump_Opt::Initialization(){
 	robot_model = HopperModel::GetRobotModel();
 
-	N_total_knotpoints = 6; //6;
+	N_total_knotpoints = 9; //6;
 
 	h_dt_min = 0.001; // Minimum knotpoint timestep
 	max_normal_force = 1e10;//10000; // Newtons
@@ -87,9 +87,9 @@ void Hopper_Jump_Opt::initialize_contact_mode_schedule(){
   // mode 1 has no active contracts
   mode_2_active_contacts.push_back(foot_contact_index);
 
-  int mode_0_start_time = 1;  int mode_0_final_time = 2;
-  int mode_1_start_time = 3;  int mode_1_final_time = 4;
-  int mode_2_start_time = 5;  int mode_2_final_time = 6;
+  int mode_0_start_time = 1;  int mode_0_final_time = 3;
+  int mode_1_start_time = 4;  int mode_1_final_time = 6;
+  int mode_2_start_time = 7;  int mode_2_final_time = 9;
   
   contact_mode_schedule.add_new_mode(mode_0_start_time, mode_0_final_time, mode_0_active_contacts);
   contact_mode_schedule.add_new_mode(mode_1_start_time, mode_1_final_time, mode_1_active_contacts);  
@@ -103,6 +103,8 @@ void Hopper_Jump_Opt::initialize_ti_constraint_list(){
 	//ti_constraint_list.append_constraint(new Hopper_Dynamics_Constraint(&contact_list)); 
   ti_constraint_list.append_constraint(new Hopper_Hybrid_Dynamics_Constraint(&contact_list, &contact_mode_schedule));   
   ti_constraint_list.append_constraint(new Hopper_Back_Euler_Time_Integration_Constraint());
+  ti_constraint_list.append_constraint(new Hopper_Position_Kinematic_Constraint(SJ_Hopper_LinkID::LK_foot, Z_DIM, 0, OPT_INFINITY));
+
   //ti_constraint_list.append_constraint(new Hopper_Floor_Contact_LCP_Constraint(&contact_list, foot_contact_index));
 }
 
