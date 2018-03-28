@@ -68,6 +68,7 @@ set(container_sources src/optimization/containers/opt_variable.cpp
 
 set(hopper_opt_stand_problem_source src/optimization/optimization_problems/2d_hopper/hopper_stand_opt_problem.cpp)
 set(hopper_opt_jump_problem_source src/optimization/optimization_problems/2d_hopper/hopper_jump_opt_problem.cpp)
+set(hopper_act_opt_jump_problem_source src/optimization/optimization_problems/2d_hopper_act/hopper_act_jump_prob.cpp)
 
 set(hopper_constraints src/optimization/hard_constraints/2d_hopper/hopper_dynamics_constraint.cpp
 					   src/optimization/hard_constraints/2d_hopper/hopper_time_integration_constraint.cpp
@@ -98,7 +99,7 @@ target_link_libraries(test_hopper_actuator_model  ${SJUtils} ${SJurdf} ${SJrbdl}
 #--------------------------------------------
 
 #--------------------------------------------
-# Test Hopper Actuator Model
+# Test Hopper Combined Model
 #--------------------------------------------
 add_executable(test_hopper_combined_model  src/small_tests/test_hopper_combined_model.cpp   ${hopper_combined_dynamics_model_sources}
 																							${hopper_model_sources}
@@ -125,6 +126,24 @@ add_executable(test_hopper_opt_obj  src/small_tests/test_hopper_prob_obj.cpp ${h
   																         ${hopper_contact_sources}
 )
 target_link_libraries(test_hopper_opt_obj  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})								 
+
+
+#--------------------------------------------
+# Test Hopper Act Optimization Object
+#--------------------------------------------
+add_executable(test_hopper_act_prob_obj  src/small_tests/test_hopper_act_prob_obj.cpp ${container_sources}
+																		          ${hopper_combined_dynamics_model_sources}
+																		          ${hopper_model_sources}
+																		          ${hopper_actuator_model_sources}
+																		          ${hopper_act_opt_jump_problem_source}
+  																         		  ${hopper_contact_sources}
+)
+target_link_libraries(test_hopper_act_prob_obj  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})								 
+
+
+
+
+
 
 #--------------------------------------------
 # Test Contact Object

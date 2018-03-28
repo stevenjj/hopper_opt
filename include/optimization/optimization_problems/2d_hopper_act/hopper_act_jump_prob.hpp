@@ -1,5 +1,5 @@
-#ifndef HOPPER_JUMP_OPTIMIZATION_PROBLEM_H
-#define HOPPER_JUMP_OPTIMIZATION_PROBLEM_H
+#ifndef HOPPER_ACT_JUMP_OPTIMIZATION_PROBLEM_H
+#define HOPPER_ACT_JUMP_OPTIMIZATION_PROBLEM_H
 
 #include <optimization/optimization_problems/opt_problem_main.hpp>
 #include <optimization/containers/opt_variable.hpp>
@@ -11,22 +11,24 @@
 #include <optimization/objective_functions/objective_function_main.hpp>
 #include <optimization/objective_functions/2d_hopper/hopper_min_torque_objective_func.hpp>
 
+#include <hopper_combined_dynamics_model/hopper_combined_dynamics_model.hpp>
 #include "HopperModel.hpp"
 #include "Hopper_Definition.h"
 
-class Hopper_Jump_Opt: public Optimization_Problem_Main{
-public:
-  Hopper_Jump_Opt();
-  ~Hopper_Jump_Opt();	
 
-  Opt_Variable_Manager    			opt_var_manager;
-  HopperModel*                  robot_model;
+class Hopper_Act_Jump_Opt: public Optimization_Problem_Main{
+public:
+  Hopper_Act_Jump_Opt();
+  ~Hopper_Act_Jump_Opt();	
+
+  Opt_Variable_Manager    			   opt_var_manager;
+  Hopper_Combined_Dynamics_Model*  combined_model;
 
   Contact_List 								  contact_list;
   Contact_Mode_Schedule         contact_mode_schedule;
 
-  Constraint_List               td_constraint_list; // Time Dependent Constraint List, exists for a particular timestep
-  Constraint_List               ti_constraint_list; // Time Independent Constraint List, exists for all timesteps
+  Constraint_List 							td_constraint_list; // Time Dependent Constraint List, exists for a particular timestep
+  Constraint_List 							ti_constraint_list;	// Time Independent Constraint List, exists for all timesteps
 
   sejong::Vector 								robot_q_init;
   sejong::Vector 								robot_qdot_init; 
@@ -37,8 +39,8 @@ public:
   double										    max_normal_force;
   double										    max_tangential_force;	  	
 
-//  Objective_Function				    objective_function;
-  Hopper_Min_Torque_Objective_Function            objective_function;
+  Objective_Function				    objective_function;
+//  Hopper_Min_Torque_Objective_Function            objective_function;
 
 
   int constraint_size; // Unused

@@ -25,8 +25,8 @@ public:
   Contact_List 								  contact_list;
   Contact_Mode_Schedule         contact_mode_schedule;
 
-  Constraint_List 							td_constraint_list; // Time Dependent Constraint List, exists for all timesteps
-  Constraint_List 							ti_constraint_list;	// Time Independent Constraint List, exists for at a particular timestep
+  Constraint_List               td_constraint_list; // Time Dependent Constraint List, exists for a particular timestep
+  Constraint_List               ti_constraint_list; // Time Independent Constraint List, exists for all timesteps
   
   sejong::Vector 								robot_q_init;
   sejong::Vector 								robot_qdot_init; 
