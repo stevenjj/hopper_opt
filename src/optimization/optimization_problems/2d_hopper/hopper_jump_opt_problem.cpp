@@ -174,8 +174,8 @@ void Hopper_Jump_Opt::initialize_opt_vars(){
 			// Apply normal force constraints on z direction		        
 		    opt_var_manager.append_variable(new Opt_Variable("Fr_z_" + std::to_string(i), VAR_TYPE_FR, k, 0.0, 0.0, max_normal_force) );
         // Each LCP contact has an alpha (phi(q)) and gamma (Phi(q)*Fr)
-        opt_var_manager.append_variable(new Opt_Variable("alpha_c" + std::to_string(i) , VAR_TYPE_ALPHA, k, 0.0, 0.0, OPT_INFINITY) );        
-        opt_var_manager.append_variable(new Opt_Variable("gamma_c" + std::to_string(i) , VAR_TYPE_GAMMA, k, 0.0, 0.0, OPT_INFINITY) );
+        // opt_var_manager.append_variable(new Opt_Variable("alpha_c" + std::to_string(i) , VAR_TYPE_ALPHA, k, 0.0, 0.0, OPT_INFINITY) );        
+        // opt_var_manager.append_variable(new Opt_Variable("gamma_c" + std::to_string(i) , VAR_TYPE_GAMMA, k, 0.0, 0.0, OPT_INFINITY) );
 		}
 		
 		// [h_dt] knotpoint timestep

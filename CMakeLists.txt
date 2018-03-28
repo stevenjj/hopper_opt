@@ -57,6 +57,7 @@ set(hopper_model_sources src/hopper_dynamic_model/Hopper_Definition.h
 						 src/hopper_dynamic_model/HopperModel.hpp
 						 src/hopper_dynamic_model/HopperModel.cpp)			
 
+set(hopper_actuator_model_sources src/hopper_actuator_model/hopper_actuator_model.cpp)
 
 set(container_sources src/optimization/containers/opt_variable.cpp
 						  src/optimization/containers/opt_variable_manager.cpp
@@ -85,6 +86,13 @@ set(snopt_wrapper_sources src/optimization/snopt_wrapper.cpp)
 #--------------------------------------------
 add_executable(test_hopper_model  src/small_tests/test_hopper_model.cpp ${hopper_model_sources})
 target_link_libraries(test_hopper_model  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})								 
+#--------------------------------------------
+
+#--------------------------------------------
+# Test Hopper Actuator Model
+#--------------------------------------------
+add_executable(test_hopper_actuator_model  src/small_tests/test_hopper_actuator_model.cpp ${hopper_actuator_model_sources})
+target_link_libraries(test_hopper_actuator_model  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})								 
 #--------------------------------------------
 
 #--------------------------------------------
