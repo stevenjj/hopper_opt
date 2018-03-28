@@ -5,10 +5,7 @@
 #include <optimization/hard_constraints/2d_hopper_act/hopper_act_hybrid_dynamics_constraint.hpp>
 #include <optimization/hard_constraints/2d_hopper_act/hopper_act_time_integration_constraint.hpp>
 #include <optimization/hard_constraints/2d_hopper_act/hopper_act_position_kinematic_constraint.hpp>
-
-// #include <optimization/hard_constraints/2d_hopper/hopper_time_integration_constraint.hpp>
-// #include <optimization/hard_constraints/2d_hopper/hopper_active_contact_kinematic_constraint.hpp>
-// #include <optimization/hard_constraints/2d_hopper/hopper_position_kinematic_constraint.hpp>
+#include <optimization/hard_constraints/2d_hopper_act/hopper_act_active_contact_kinematic_constraint.hpp>
 
 #include <optimization/contacts/2d_hopper/hopper_foot_contact.hpp>
 
@@ -45,7 +42,7 @@ Hopper_Act_Jump_Opt::~Hopper_Act_Jump_Opt(){
 void Hopper_Act_Jump_Opt::Initialization(){
   combined_model = Hopper_Combined_Dynamics_Model::GetCombinedModel();
 
-  N_total_knotpoints = 3; //6;
+  N_total_knotpoints = 9; //6;
 
   h_dt_min = 0.001; // Minimum knotpoint timestep
   max_normal_force = 1e10;//10000; // Newtons
@@ -117,7 +114,7 @@ void Hopper_Act_Jump_Opt::initialize_td_constraint_list(){
     //for each active contact, add the kinematic constraint for having this contact active
     for(int i = 0; i < active_contacts.size(); i++){
       contact_index = active_contacts[i];
-      //td_constraint_list.append_constraint(new Active_Contact_Kinematic_Constraint(knotpoint, &contact_list, contact_index));
+      td_constraint_list.append_constraint(new Hopper_Act_Active_Contact_Kinematic_Constraint(knotpoint, &contact_list, contact_index));
     }
 
   }
