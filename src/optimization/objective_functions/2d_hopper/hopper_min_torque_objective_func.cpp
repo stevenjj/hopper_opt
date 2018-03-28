@@ -35,9 +35,11 @@ void Hopper_Min_Torque_Objective_Function::evaluate_objective_function(Opt_Varia
 		var_manager.get_q_states(k-1, q_states_prev);
 
 		cost += u_states.transpose()*Q_u*u_states;
-		cost += (q_states - q_states_prev).transpose()*(q_states - q_states_prev);
-		cost += (Fr_states.transpose()*Fr_states);		
-		
+		double q_cost = (q_states - q_states_prev).transpose()*(q_states - q_states_prev);
+		double fr_cost = (Fr_states.transpose()*Fr_states);
+
+		cost += (q_cost*1);
+		cost += (fr_cost*1);		
 		//cost += u_states.transpose()*zdot_states;
 		cost *= h_k;
 		//std::cout << "cost = " << cost << std::endl;
