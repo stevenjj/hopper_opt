@@ -83,6 +83,8 @@ set(hopper_act_constraints src/optimization/hard_constraints/2d_hopper_act/hoppe
 						   src/optimization/hard_constraints/2d_hopper_act/hopper_act_position_kinematic_constraint.cpp
 						   src/optimization/hard_constraints/2d_hopper_act/hopper_act_active_contact_kinematic_constraint.cpp)
 
+set(hopper_act_objective_func_sources src/optimization/objective_functions/2d_hopper_act/hopper_act_min_torque_objective_func.cpp)
+
 
 set(hopper_objective_func_sources src/optimization/objective_functions/2d_hopper/hopper_min_torque_objective_func.cpp)
 
@@ -143,6 +145,7 @@ add_executable(test_hopper_act_prob_obj  src/small_tests/test_hopper_act_prob_ob
 																		          ${hopper_model_sources}
 																		          ${hopper_actuator_model_sources}
 																		          ${hopper_act_opt_jump_problem_source}
+  																         		  ${hopper_act_objective_func_sources}
   																         		  ${hopper_contact_sources}
   																         		  ${hopper_act_constraints}
 )

@@ -46,5 +46,4 @@ void Hopper_Act_Min_Torque_Objective_Function::evaluate_objective_function(Opt_V
 
 void Hopper_Act_Min_Torque_Objective_Function::evaluate_objective_gradient(Opt_Variable_Manager& var_manager, std::vector<double>& G, std::vector<int>& iG, std::vector<int>& jG){}
 void Hopper_Act_Min_Torque_Objective_Function::evaluate_sparse_A_matrix(Opt_Variable_Manager& var_manager, std::vector<double>& A, std::vector<int>& iA, std::vector<int>& jA){}
-void Hopper_Act_Min_Torque_Objective_Function::setQ_vals(const int &i, const int &j, const double &value){}
 

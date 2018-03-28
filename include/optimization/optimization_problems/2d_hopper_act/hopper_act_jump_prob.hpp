@@ -9,7 +9,9 @@
 #include <optimization/containers/contact_mode_schedule.hpp>
 
 #include <optimization/objective_functions/objective_function_main.hpp>
-#include <optimization/objective_functions/2d_hopper/hopper_min_torque_objective_func.hpp>
+//#include <optimization/objective_functions/2d_hopper/hopper_min_torque_objective_func.hpp>
+#include <optimization/objective_functions/2d_hopper_act/hopper_act_min_torque_objective_func.hpp>
+
 
 #include <hopper_combined_dynamics_model/hopper_combined_dynamics_model.hpp>
 #include "HopperModel.hpp"
@@ -44,7 +46,8 @@ public:
   double										    max_normal_force;
   double										    max_tangential_force;	  	
 
-  Objective_Function				    objective_function;
+  //Objective_Function				    objective_function;
+  Hopper_Act_Min_Torque_Objective_Function            objective_function;  
 //  Hopper_Min_Torque_Objective_Function            objective_function;
 
 
