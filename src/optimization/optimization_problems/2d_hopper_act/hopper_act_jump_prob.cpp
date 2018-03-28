@@ -2,10 +2,9 @@
 #include <optimization/optimization_problems/2d_hopper_act/hopper_act_jump_prob.hpp>
 #include <optimization/optimization_constants.hpp>
 
-// #include <optimization/hard_constraints/2d_hopper/hopper_dynamics_constraint.hpp>
-// #include <optimization/hard_constraints/2d_hopper/hopper_hybrid_dynamics_constraint.hpp>
+#include <optimization/hard_constraints/2d_hopper_act/hopper_act_hybrid_dynamics_constraint.hpp>
+
 // #include <optimization/hard_constraints/2d_hopper/hopper_time_integration_constraint.hpp>
-// #include <optimization/hard_constraints/2d_hopper/hopper_contact_lcp_constraint.hpp>
 // #include <optimization/hard_constraints/2d_hopper/hopper_active_contact_kinematic_constraint.hpp>
 // #include <optimization/hard_constraints/2d_hopper/hopper_position_kinematic_constraint.hpp>
 
@@ -99,7 +98,7 @@ void Hopper_Act_Jump_Opt::initialize_contact_mode_schedule(){
 
 void Hopper_Act_Jump_Opt::initialize_ti_constraint_list(){
   int foot_contact_index = 0;
-  // ti_constraint_list.append_constraint(new Hopper_Hybrid_Dynamics_Constraint(&contact_list, &contact_mode_schedule));   
+  ti_constraint_list.append_constraint(new Hopper_Act_Hybrid_Dynamics_Constraint(&contact_list, &contact_mode_schedule));   
   // ti_constraint_list.append_constraint(new Hopper_Back_Euler_Time_Integration_Constraint());
   // ti_constraint_list.append_constraint(new Hopper_Position_Kinematic_Constraint(SJ_Hopper_LinkID::LK_foot, Z_DIM, 0, OPT_INFINITY));
 }
@@ -180,7 +179,7 @@ void Hopper_Act_Jump_Opt::initialize_opt_vars(){
 
     // [current_u]
     for(size_t i = 0; i < NUM_ACT_JOINT; i++){
-          opt_var_manager.append_variable(new Opt_Variable("current_u_" + std::to_string(i), VAR_TYPE_U, k, 0.0, -1000, 1000) );
+          opt_var_manager.append_variable(new Opt_Variable("current_u_" + std::to_string(i), VAR_TYPE_U, k, 0.0, -100, 100) );
     }
 
     // [Fr]
@@ -215,8 +214,8 @@ void Hopper_Act_Jump_Opt::initialize_specific_variable_bounds(){
   // opt_var_manager.knotpoint_to_x_vars[N_total_knotpoints/2][0]->u_bound = OPT_INFINITY;
 
   //Set final position of the base to be at 0.7
-  // opt_var_manager.knotpoint_to_x_vars[N_total_knotpoints][0]->l_bound = 0.7 - OPT_ZERO_EPS;
-  // opt_var_manager.knotpoint_to_x_vars[N_total_knotpoints][0]->u_bound = 0.7 + OPT_ZERO_EPS;
+  opt_var_manager.knotpoint_to_x_vars[N_total_knotpoints][0]->l_bound = 0.7 - OPT_ZERO_EPS;
+  opt_var_manager.knotpoint_to_x_vars[N_total_knotpoints][0]->u_bound = 0.7 + OPT_ZERO_EPS;
 
   opt_var_manager.knotpoint_to_xdot_vars[N_total_knotpoints][0]->l_bound = -OPT_ZERO_EPS;
   opt_var_manager.knotpoint_to_xdot_vars[N_total_knotpoints][0]->u_bound = +OPT_ZERO_EPS;

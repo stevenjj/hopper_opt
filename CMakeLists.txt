@@ -77,6 +77,10 @@ set(hopper_constraints src/optimization/hard_constraints/2d_hopper/hopper_dynami
 					   src/optimization/hard_constraints/2d_hopper/hopper_active_contact_kinematic_constraint.cpp
 					   src/optimization/hard_constraints/2d_hopper/hopper_position_kinematic_constraint.cpp)
 
+
+set(hopper_act_constraints src/optimization/hard_constraints/2d_hopper_act/hopper_act_hybrid_dynamics_constraint.cpp)
+
+
 set(hopper_objective_func_sources src/optimization/objective_functions/2d_hopper/hopper_min_torque_objective_func.cpp)
 
 set(hopper_contact_sources src/optimization/contacts/2d_hopper/hopper_foot_contact.cpp)
@@ -137,6 +141,7 @@ add_executable(test_hopper_act_prob_obj  src/small_tests/test_hopper_act_prob_ob
 																		          ${hopper_actuator_model_sources}
 																		          ${hopper_act_opt_jump_problem_source}
   																         		  ${hopper_contact_sources}
+  																         		  ${hopper_act_constraints}
 )
 target_link_libraries(test_hopper_act_prob_obj  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})								 
 
