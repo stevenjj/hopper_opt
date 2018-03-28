@@ -1,7 +1,9 @@
 #include <optimization/objective_functions/2d_hopper_act/hopper_act_min_torque_objective_func.hpp>
 #include <Utils/utilities.hpp>
 
-Hopper_Act_Min_Torque_Objective_Function::Hopper_Act_Min_Torque_Objective_Function(){}
+Hopper_Act_Min_Torque_Objective_Function::Hopper_Act_Min_Torque_Objective_Function(){
+	combined_model = Hopper_Combined_Dynamics_Model::GetCombinedModel();
+}
 
 Hopper_Act_Min_Torque_Objective_Function::~Hopper_Act_Min_Torque_Objective_Function(){
 	std::cout << "[Hopper_Act_Min_Torque_Objective_Function Destructor] called" << std::endl;
@@ -26,6 +28,11 @@ void Hopper_Act_Min_Torque_Objective_Function::evaluate_objective_function(Opt_V
 	double cost = 0.0;
 	double h_k = 1.0; 
 
+	// add q_state to cost.
+
+	sejong::Vector q_states;
+	sejong::Vector q_states_prev;
+
 	for(size_t k = 1; k < N_total_knotpoints + 1; k++){
 		var_manager.get_u_states(k, u_states);
 		var_manager.get_var_reaction_forces(k, Fr_states);
@@ -35,7 +42,11 @@ void Hopper_Act_Min_Torque_Objective_Function::evaluate_objective_function(Opt_V
 		cost += u_states.transpose()*Q_u*u_states;
 		cost += (x_states - x_states_prev).transpose()*(x_states - x_states_prev);
 		cost += (Fr_states.transpose()*Fr_states);		
-		
+
+		// combined_model->convert_x_to_q(x_states, q_states);
+		// combined_model->convert_x_to_q(x_states_prev, q_states_prev);		
+		// cost += (q_states - q_states_prev).transpose()*(q_states - q_states_prev);
+
 		//cost += u_states.transpose()*zdot_states;
 		cost *= h_k;
 		//std::cout << "cost = " << cost << std::endl;

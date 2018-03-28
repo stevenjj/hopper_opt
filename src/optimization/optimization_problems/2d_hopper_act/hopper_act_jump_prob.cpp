@@ -62,7 +62,7 @@ void Hopper_Act_Jump_Opt::Initialization(){
 void Hopper_Act_Jump_Opt::initialize_starting_configuration(){
  // Set Virtual Joints
   // z_virt
-  robot_q_init[0] = 0.65;
+  robot_q_init[0] = 0.5;
   // z_leg
   robot_q_init[1] = -robot_q_init[0];
 
@@ -91,6 +91,11 @@ void Hopper_Act_Jump_Opt::initialize_contact_mode_schedule(){
   contact_mode_schedule.add_new_mode(mode_0_start_time, mode_0_final_time, mode_0_active_contacts);
   contact_mode_schedule.add_new_mode(mode_1_start_time, mode_1_final_time, mode_1_active_contacts);  
   contact_mode_schedule.add_new_mode(mode_2_start_time, mode_2_final_time, mode_2_active_contacts);  
+
+  //int mode_0_start_time = 1;  int mode_0_final_time = N_total_knotpoints;
+  
+  contact_mode_schedule.add_new_mode(mode_0_start_time, mode_0_final_time, mode_0_active_contacts);
+
 
 }
 

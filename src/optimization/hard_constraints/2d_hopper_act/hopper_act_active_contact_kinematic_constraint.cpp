@@ -50,7 +50,8 @@ void Hopper_Act_Active_Contact_Kinematic_Constraint::evaluate_constraint(const i
   current_contact->signed_distance_to_contact(q_state, distance_from_ground);
 
   // std::cout << "knotpoint = " << knotpoint << std::endl;
-  // sejong::pretty_print(q_state, std::cout, "q_state");
+  // sejong::pretty_print(x_state, std::cout, "x_state");
+  //sejong::pretty_print(q_state, std::cout, "q_state"); 
   // std::cout << "Contact Link ID = " << contact_link_id << ", distance to contact = " << distance_from_ground << std::endl;
 
   F_vec.push_back(distance_from_ground);

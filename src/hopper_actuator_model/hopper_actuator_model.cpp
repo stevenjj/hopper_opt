@@ -75,14 +75,14 @@ void HopperActuatorModel::Initialization(){
 		K_m[i] = -157.0;
 
 		// Actuator Moment Arm (m)
-		r_arm[i] = 0.11; //  		
+		r_arm[i] = 0.11;//0.11; //  		
 		// Zero spring force actuator position
 		z_o[i] = 0.0;
 		q_o[i] = 0.0;
 	}
 
 	// Initial Configuration for which z = 0;
-	q_o[SJ_Hopper_ActuatorID::act_leg_extend] = -0.5;
+	q_o[SJ_Hopper_ActuatorID::act_leg_extend] = 0.0;
 
 	// Lower Bound of joint configuration
 	q_l_bound[SJ_Hopper_ActuatorID::act_leg_extend] = -0.75;

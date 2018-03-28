@@ -1,4 +1,5 @@
 #include <optimization/contacts/2d_hopper/hopper_foot_contact.hpp>
+#include <Utils/utilities.hpp>
 #include <iostream>
 
 // Define LeftFoot Contact ---------------------------------------------------------------
