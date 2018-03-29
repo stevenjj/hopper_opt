@@ -178,8 +178,8 @@ void Hopper_Act_Jump_Opt::initialize_opt_vars(){
   // ------------------------------------------------------------------
   for(size_t k = 1; k < N_total_knotpoints + 1; k++){
       opt_var_manager.append_variable(new Opt_Variable("x_state_virt" + std::to_string(0), VAR_TYPE_X, k, robot_q_init[0], 0, 10) );
-      opt_var_manager.append_variable(new Opt_Variable("x_state_act" + std::to_string(1), VAR_TYPE_X, k, act_z_init[0], -1, 0.0) );
-      // opt_var_manager.append_variable(new Opt_Variable("x_state_act" + std::to_string(1), VAR_TYPE_X, k, act_z_init[0], combined_model->actuator_model->z_l_bound[0], combined_model->actuator_model->z_u_bound[0]) );
+      //opt_var_manager.append_variable(new Opt_Variable("x_state_act" + std::to_string(1), VAR_TYPE_X, k, act_z_init[0], -1, 0.0) );
+      opt_var_manager.append_variable(new Opt_Variable("x_state_act" + std::to_string(1), VAR_TYPE_X, k, act_z_init[0], combined_model->actuator_model->z_l_bound[0], combined_model->actuator_model->z_u_bound[0]) );
        opt_var_manager.append_variable(new Opt_Variable("x_state_act_delta" + std::to_string(2), VAR_TYPE_X, k, act_delta_init[0], -0.025, 0.025) );
 
       opt_var_manager.append_variable(new Opt_Variable("xdot_state_virt" + std::to_string(0), VAR_TYPE_XDOT, k, 0.0, -10, 10) );
@@ -217,8 +217,8 @@ void Hopper_Act_Jump_Opt::initialize_opt_vars(){
 
 void Hopper_Act_Jump_Opt::initialize_specific_variable_bounds(){
   // Jump at half way
-  // opt_var_manager.knotpoint_to_x_vars[N_total_knotpoints/2][0]->l_bound = 2.0;
-  // opt_var_manager.knotpoint_to_x_vars[N_total_knotpoints/2][0]->u_bound = OPT_INFINITY;
+  opt_var_manager.knotpoint_to_x_vars[N_total_knotpoints/2][0]->l_bound = 1.25;
+  opt_var_manager.knotpoint_to_x_vars[N_total_knotpoints/2][0]->u_bound = OPT_INFINITY;
 
   //Set final position of the base to be at 0.7
   opt_var_manager.knotpoint_to_x_vars[N_total_knotpoints][0]->l_bound = 0.7 - OPT_ZERO_EPS;
