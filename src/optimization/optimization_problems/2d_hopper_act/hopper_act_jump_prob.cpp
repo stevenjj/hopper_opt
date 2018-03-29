@@ -42,7 +42,7 @@ Hopper_Act_Jump_Opt::~Hopper_Act_Jump_Opt(){
 void Hopper_Act_Jump_Opt::Initialization(){
   combined_model = Hopper_Combined_Dynamics_Model::GetCombinedModel();
 
-  N_total_knotpoints = 9; //6;
+  N_total_knotpoints = 27; //6;
 
   h_dt_min = 0.001; // Minimum knotpoint timestep
   max_normal_force = 1e10;//10000; // Newtons
@@ -84,9 +84,14 @@ void Hopper_Act_Jump_Opt::initialize_contact_mode_schedule(){
   // mode 1 has no active contracts
   mode_2_active_contacts.push_back(foot_contact_index);
 
-  int mode_0_start_time = 1;  int mode_0_final_time = 3;
-  int mode_1_start_time = 4;  int mode_1_final_time = 6;
-  int mode_2_start_time = 7;  int mode_2_final_time = 9;
+  // int mode_0_start_time = 1;  int mode_0_final_time = 3;
+  // int mode_1_start_time = 4;  int mode_1_final_time = 6;
+  // int mode_2_start_time = 7;  int mode_2_final_time = 9;
+
+  int mode_len = N_total_knotpoints/3; // equal mode lengths
+  int mode_0_start_time = 1;  int mode_0_final_time = mode_len;
+  int mode_1_start_time = 1 + mode_len;  int mode_1_final_time = mode_len*2; 
+  int mode_2_start_time = 1 + mode_len*2;  int mode_2_final_time = mode_len*3;      
   
   contact_mode_schedule.add_new_mode(mode_0_start_time, mode_0_final_time, mode_0_active_contacts);
   contact_mode_schedule.add_new_mode(mode_1_start_time, mode_1_final_time, mode_1_active_contacts);  

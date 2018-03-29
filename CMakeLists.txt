@@ -52,6 +52,7 @@ include_directories(${Sejong_Eigen_Path})
 
 include_directories(include)
 include_directories(src/hopper_dynamic_model)
+include_directories(src/draco_dynamic_model)
 
 set(hopper_model_sources src/hopper_dynamic_model/Hopper_Definition.h
 						 src/hopper_dynamic_model/HopperModel.hpp
@@ -59,6 +60,14 @@ set(hopper_model_sources src/hopper_dynamic_model/Hopper_Definition.h
 
 set(hopper_actuator_model_sources src/hopper_actuator_model/hopper_actuator_model.cpp)
 set(hopper_combined_dynamics_model_sources src/hopper_combined_dynamics_model/hopper_combined_dynamics_model.cpp)
+
+set(draco_dyn_model_sources src/draco_dynamic_model/DracoP1Rot_Definition.h
+						  src/draco_dynamic_model/Draco_Dyn_Model.hpp						  
+						  src/draco_dynamic_model/Draco_Dyn_Model.cpp
+						  src/draco_dynamic_model/Draco_Kin_Model.hpp						  
+						  src/draco_dynamic_model/Draco_Kin_Model.cpp						  
+						  src/draco_dynamic_model/DracoModel.hpp
+						  src/draco_dynamic_model/DracoModel.cpp)		
 
 set(container_sources src/optimization/containers/opt_variable.cpp
 						  src/optimization/containers/opt_variable_manager.cpp
@@ -69,6 +78,9 @@ set(container_sources src/optimization/containers/opt_variable.cpp
 set(hopper_opt_stand_problem_source src/optimization/optimization_problems/2d_hopper/hopper_stand_opt_problem.cpp)
 set(hopper_opt_jump_problem_source src/optimization/optimization_problems/2d_hopper/hopper_jump_opt_problem.cpp)
 set(hopper_act_opt_jump_problem_source src/optimization/optimization_problems/2d_hopper_act/hopper_act_jump_prob.cpp)
+
+set(draco_opt_jump_problem_source src/optimization/optimization_problems/2d_draco/draco_jump_opt_problem.cpp)
+
 
 set(hopper_constraints src/optimization/hard_constraints/2d_hopper/hopper_dynamics_constraint.cpp
 					   src/optimization/hard_constraints/2d_hopper/hopper_time_integration_constraint.cpp
@@ -115,6 +127,9 @@ add_executable(test_hopper_combined_model  src/small_tests/test_hopper_combined_
 																							${hopper_actuator_model_sources})
 target_link_libraries(test_hopper_combined_model  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})								 
 #--------------------------------------------
+add_executable(test_draco_model  src/small_tests/test_draco_model.cpp ${draco_dyn_model_sources})
+target_link_libraries(test_draco_model  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})			
+
 
 
 #--------------------------------------------
@@ -150,6 +165,17 @@ add_executable(test_hopper_act_prob_obj  src/small_tests/test_hopper_act_prob_ob
   																         		  ${hopper_act_constraints}
 )
 target_link_libraries(test_hopper_act_prob_obj  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})								 
+
+
+#--------------------------------------------
+# Test Draco Jump Optimization Object
+#--------------------------------------------
+add_executable(test_draco_prob_obj  src/small_tests/test_draco_prob_obj.cpp ${container_sources}
+																				 ${draco_dyn_model_sources}
+																				 ${draco_opt_jump_problem_source}
+)
+target_link_libraries(test_draco_prob_obj  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})								 
+
 
 
 
