@@ -95,6 +95,8 @@ set(hopper_act_constraints src/optimization/hard_constraints/2d_hopper_act/hoppe
 						   src/optimization/hard_constraints/2d_hopper_act/hopper_act_position_kinematic_constraint.cpp
 						   src/optimization/hard_constraints/2d_hopper_act/hopper_act_active_contact_kinematic_constraint.cpp)
 
+set(draco_constraints src/optimization/hard_constraints/2d_draco/draco_hybrid_dynamics_constraint.cpp)
+
 set(hopper_act_objective_func_sources src/optimization/objective_functions/2d_hopper_act/hopper_act_min_torque_objective_func.cpp)
 
 
@@ -173,6 +175,7 @@ target_link_libraries(test_hopper_act_prob_obj  ${SJUtils} ${SJurdf} ${SJrbdl} $
 add_executable(test_draco_prob_obj  src/small_tests/test_draco_prob_obj.cpp ${container_sources}
 																				 ${draco_dyn_model_sources}
 																				 ${draco_opt_jump_problem_source}
+																				 ${draco_constraints}
 )
 target_link_libraries(test_draco_prob_obj  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})								 
 
