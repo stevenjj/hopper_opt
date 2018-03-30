@@ -37,7 +37,7 @@ Draco_Jump_Opt::~Draco_Jump_Opt(){
 void Draco_Jump_Opt::Initialization(){
 	robot_model = DracoModel::GetDracoModel();
 
-	N_total_knotpoints = 9;//9; //6;
+	N_total_knotpoints = 10;//9; //6;
 
 	h_dt_min = 0.001; // Minimum knotpoint timestep
 	max_normal_force = 1e10;//10000; // Newtons
@@ -81,21 +81,31 @@ void Draco_Jump_Opt::initialize_contact_list(){
 void Draco_Jump_Opt::initialize_contact_mode_schedule(){
   int toe_contact_index = 0;
   int heel_contact_index = 1;
-  std::vector<int> mode_0_active_contacts; // support phase 
-  std::vector<int> mode_1_active_contacts; // flight phase
-  std::vector<int> mode_2_active_contacts; // support phase
+  std::vector<int> mode_0_active_contacts; // double contact 
+  std::vector<int> mode_1_active_contacts; // heel off
+  std::vector<int> mode_2_active_contacts; // flight phase
+  std::vector<int> mode_3_active_contacts; // toe on
+  std::vector<int> mode_4_active_contacts; // double contact  
 
+  // Mode 0 = Double Contact
   mode_0_active_contacts.push_back(toe_contact_index);
-  mode_0_active_contacts.push_back(heel_contact_index);  
-  // mode 1 has no active contracts
-  mode_2_active_contacts.push_back(toe_contact_index);
-  mode_2_active_contacts.push_back(heel_contact_index);  
+  mode_0_active_contacts.push_back(heel_contact_index);   
+  // Mode 1 = Heel Contact Off
+  mode_1_active_contacts.push_back(toe_contact_index);
+  // Mode 2 = No Contacts
+  // Mode 3 = Toe Contact on
+  mode_3_active_contacts.push_back(toe_contact_index);
+  // Mode 4 = Double Contact
+  mode_4_active_contacts.push_back(toe_contact_index);
+  mode_4_active_contacts.push_back(heel_contact_index);  
 
-  int mode_len = N_total_knotpoints/3; // equal mode lengths
+  int mode_len = N_total_knotpoints/5; // equal mode lengths
 
   int mode_0_start_time = 1;               int mode_0_final_time = mode_len;
   int mode_1_start_time = 1 + mode_len;    int mode_1_final_time = mode_len*2; 
   int mode_2_start_time = 1 + mode_len*2;  int mode_2_final_time = mode_len*3;    
+  int mode_3_start_time = 1 + mode_len*3;  int mode_3_final_time = mode_len*4;    
+  int mode_4_start_time = 1 + mode_len*4;  int mode_4_final_time = mode_len*5;      
 
   // int mode_0_start_time = 1;  int mode_0_final_time = 3;
   // int mode_1_start_time = 4;  int mode_1_final_time = 6;
@@ -104,6 +114,9 @@ void Draco_Jump_Opt::initialize_contact_mode_schedule(){
   contact_mode_schedule.add_new_mode(mode_0_start_time, mode_0_final_time, mode_0_active_contacts);
   contact_mode_schedule.add_new_mode(mode_1_start_time, mode_1_final_time, mode_1_active_contacts);  
   contact_mode_schedule.add_new_mode(mode_2_start_time, mode_2_final_time, mode_2_active_contacts);  
+  contact_mode_schedule.add_new_mode(mode_3_start_time, mode_3_final_time, mode_3_active_contacts);  
+  contact_mode_schedule.add_new_mode(mode_4_start_time, mode_4_final_time, mode_4_active_contacts);  
+
 
 }
 
@@ -192,9 +205,9 @@ void Draco_Jump_Opt::initialize_opt_vars(){
 		// [Fr]
 		for(size_t i = 0; i < contact_list.get_size(); i++){
         // Add tangential force optimization variables for each contact
-        opt_var_manager.append_variable(new Opt_Variable("Fr_x_" + std::to_string(i), VAR_TYPE_FR, k, 0.0, -max_tangential_force, max_tangential_force) );
+        opt_var_manager.append_variable(new Opt_Variable("Fr_x_" + std::to_string(i), VAR_TYPE_FR, k, 1.0, -max_tangential_force, max_tangential_force) );
         // Apply normal force constraints on z direction            
-		    opt_var_manager.append_variable(new Opt_Variable("Fr_z_" + std::to_string(i), VAR_TYPE_FR, k, 0.0, 0.0, max_normal_force) );
+		    opt_var_manager.append_variable(new Opt_Variable("Fr_z_" + std::to_string(i), VAR_TYPE_FR, k, 1.0, 0.0, max_normal_force) );
 		}
 		
 		// [h_dt] knotpoint timestep
