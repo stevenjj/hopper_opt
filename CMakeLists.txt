@@ -104,6 +104,11 @@ set(hopper_objective_func_sources src/optimization/objective_functions/2d_hopper
 
 set(hopper_contact_sources src/optimization/contacts/2d_hopper/hopper_foot_contact.cpp)
 
+set(draco_contact_sources src/optimization/contacts/2d_draco/draco_toe_contact.cpp
+						  src/optimization/contacts/2d_draco/draco_heel_contact.cpp
+						  )
+
+
 set(snopt_wrapper_sources src/optimization/snopt_wrapper.cpp)
 
 
@@ -176,6 +181,7 @@ add_executable(test_draco_prob_obj  src/small_tests/test_draco_prob_obj.cpp ${co
 																				 ${draco_dyn_model_sources}
 																				 ${draco_opt_jump_problem_source}
 																				 ${draco_constraints}
+																				 ${draco_contact_sources}
 )
 target_link_libraries(test_draco_prob_obj  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})								 
 

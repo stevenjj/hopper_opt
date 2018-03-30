@@ -8,7 +8,8 @@
 // #include <optimization/hard_constraints/2d_hopper/hopper_active_contact_kinematic_constraint.hpp>
 // #include <optimization/hard_constraints/2d_hopper/hopper_position_kinematic_constraint.hpp>
 
-//#include <optimization/contacts/2d_hopper/hopper_foot_contact.hpp>
+#include <optimization/contacts/2d_draco/draco_toe_contact.hpp>
+#include <optimization/contacts/2d_draco/draco_heel_contact.hpp>
 
 // #include <adt/contacts/adt_draco_contact_toe.hpp>
 // #include <adt/contacts/adt_draco_contact_heel.hpp>
@@ -71,19 +72,24 @@ void Draco_Jump_Opt::initialize_starting_configuration(){
 }
 
 void Draco_Jump_Opt::initialize_contact_list(){
-  // Hopper_Foot_Contact* foot_contact = new Hopper_Foot_Contact();
-  // contact_list.append_contact(foot_contact);
+  Draco_Toe_Contact* toe_contact = new Draco_Toe_Contact();
+  Draco_Heel_Contact* heel_contact = new Draco_Heel_Contact();  
+  contact_list.append_contact(toe_contact);
+  contact_list.append_contact(heel_contact);  
 }
 
 void Draco_Jump_Opt::initialize_contact_mode_schedule(){
-  int foot_contact_index = 0;
+  int toe_contact_index = 0;
+  int heel_contact_index = 1;
   std::vector<int> mode_0_active_contacts; // support phase 
   std::vector<int> mode_1_active_contacts; // flight phase
   std::vector<int> mode_2_active_contacts; // support phase
 
-  mode_0_active_contacts.push_back(foot_contact_index);
+  mode_0_active_contacts.push_back(toe_contact_index);
+  mode_0_active_contacts.push_back(heel_contact_index);  
   // mode 1 has no active contracts
-  mode_2_active_contacts.push_back(foot_contact_index);
+  mode_2_active_contacts.push_back(toe_contact_index);
+  mode_2_active_contacts.push_back(heel_contact_index);  
 
   int mode_len = N_total_knotpoints/3; // equal mode lengths
 
@@ -103,7 +109,7 @@ void Draco_Jump_Opt::initialize_contact_mode_schedule(){
 
 
 void Draco_Jump_Opt::initialize_ti_constraint_list(){
-  int foot_contact_index = 0;
+  int toe_contact_index = 0;
   ti_constraint_list.append_constraint(new Draco_Hybrid_Dynamics_Constraint(&contact_list, &contact_mode_schedule));   
   //ti_constraint_list.append_constraint(new Hopper_Back_Euler_Time_Integration_Constraint());
   //ti_constraint_list.append_constraint(new Hopper_Position_Kinematic_Constraint(SJ_Hopper_LinkID::LK_foot, Z_DIM, 0, OPT_INFINITY));
@@ -174,9 +180,9 @@ void Draco_Jump_Opt::initialize_opt_vars(){
       opt_var_manager.append_variable(new Opt_Variable("qdot_state_virt_x"   , VAR_TYPE_QDOT, k, robot_qdot_init[0], -10, 10) );
       opt_var_manager.append_variable(new Opt_Variable("qdot_state_virt_z"   , VAR_TYPE_QDOT, k, robot_qdot_init[1], -10, 10) );
       opt_var_manager.append_variable(new Opt_Variable("qdot_state_virt_ry"  , VAR_TYPE_QDOT, k, robot_qdot_init[2], -10, 10) );
-      opt_var_manager.append_variable(new Opt_Variable("qdot_state_pos_body"  , VAR_TYPE_Q, k, robot_qdot_init[3], -10, 10) );
-      opt_var_manager.append_variable(new Opt_Variable("qdot_state_pos_knee"  , VAR_TYPE_Q, k, robot_qdot_init[4], -10, 10) );
-      opt_var_manager.append_variable(new Opt_Variable("qdot_state_pos_ankle" , VAR_TYPE_Q, k, robot_qdot_init[5], -10, 10) );
+      opt_var_manager.append_variable(new Opt_Variable("qdot_state_pos_body"  , VAR_TYPE_QDOT, k, robot_qdot_init[3], -10, 10) );
+      opt_var_manager.append_variable(new Opt_Variable("qdot_state_pos_knee"  , VAR_TYPE_QDOT, k, robot_qdot_init[4], -10, 10) );
+      opt_var_manager.append_variable(new Opt_Variable("qdot_state_pos_ankle" , VAR_TYPE_QDOT, k, robot_qdot_init[5], -10, 10) );
 
 		// [torque_u]
 		for(size_t i = 0; i < NUM_ACT_JOINT; i++){
