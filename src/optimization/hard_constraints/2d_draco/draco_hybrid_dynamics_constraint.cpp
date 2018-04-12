@@ -69,16 +69,16 @@ void Draco_Hybrid_Dynamics_Constraint::set_inactive_contacts_to_zero_force(const
   std::vector<int> active_contacts;
   contact_mode_schedule_obj->get_active_contacts(knotpoint, active_contacts);
 
-  std::cout << "" <<std::endl;
-  std::cout << "Knotpoint = " << knotpoint << " has active contacts with indices: ";
-  if (active_contacts.size() == 0){
-    std::cout << "no active contacts" << std::endl;
-  }else{
-    for (size_t i = 0; i < active_contacts.size(); i++){
-      std::cout << active_contacts[i] << ",";
-    }
-    std::cout << "" <<std::endl;
-  }
+  // std::cout << "" <<std::endl;
+  // std::cout << "Knotpoint = " << knotpoint << " has active contacts with indices: ";
+  // if (active_contacts.size() == 0){
+  //   std::cout << "no active contacts" << std::endl;
+  // }else{
+  //   for (size_t i = 0; i < active_contacts.size(); i++){
+  //     std::cout << active_contacts[i] << ",";
+  //   }
+  //   std::cout << "" <<std::endl;
+  // }
 
 
   // Go through all the contacts. If it is not in the active_contacts list, set the contact forces to 0.
@@ -108,7 +108,7 @@ void Draco_Hybrid_Dynamics_Constraint::set_inactive_contacts_to_zero_force(const
     }
 
   }
-  sejong::pretty_print(Fr_all, std::cout, "Fr_all");
+  //sejong::pretty_print(Fr_all, std::cout, "Fr_all");
 
 
 }

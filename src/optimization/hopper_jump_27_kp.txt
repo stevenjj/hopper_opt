@@ -1,0 +1,303 @@
+--------------------------
+knotpoint = 0
+q_states
+ 0.500000  -0.500000  
+qdot_states
+ 0.000000   0.000000  
+--------------------------
+knotpoint = 1
+q_states
+ 0.477255  -0.477255  
+qdot_states
+-0.454909   0.454909  
+torque_states
+-12.657253  
+Fr_states
+ 22.467253  
+h_dt = 0.05
+--------------------------
+knotpoint = 2
+q_states
+ 0.429509  -0.429509  
+qdot_states
+-0.954909   0.954909  
+torque_states
+-9.050008  
+Fr_states
+ 18.860008  
+h_dt = 0.05
+--------------------------
+knotpoint = 3
+q_states
+ 0.354509  -0.354509  
+qdot_states
+-1.500000   1.500000  
+torque_states
+-5.442747  
+Fr_states
+ 15.252747  
+h_dt = 0.05
+--------------------------
+knotpoint = 4
+q_states
+ 0.250000  -0.250000  
+qdot_states
+-2.090182   2.090182  
+torque_states
+-1.835470  
+Fr_states
+ 11.645470  
+h_dt = 0.05
+--------------------------
+knotpoint = 5
+q_states
+ 0.336939  -0.336939  
+qdot_states
+ 0.086939  -0.086939  
+torque_states
+-57.758484  
+Fr_states
+ 67.568484  
+h_dt = 1
+--------------------------
+knotpoint = 6
+q_states
+ 0.309411  -0.309411  
+qdot_states
+-0.550579   0.550579  
+torque_states
+ 1.951480  
+Fr_states
+ 7.858520  
+h_dt = 0.05
+--------------------------
+knotpoint = 7
+q_states
+ 0.250000  -0.250000  
+qdot_states
+-1.188211   1.188211  
+torque_states
+ 1.960534  
+Fr_states
+ 7.849466  
+h_dt = 0.05
+--------------------------
+knotpoint = 8
+q_states
+ 0.250000  -0.250000  
+qdot_states
+ 0.000000  -0.000000  
+torque_states
+-53.802843  
+Fr_states
+ 63.612843  
+h_dt = 1
+--------------------------
+knotpoint = 9
+q_states
+ 0.750000  -0.750000  
+qdot_states
+ 4.800015  -4.800015  
+torque_states
+-233.371136  
+Fr_states
+ 243.181136  
+h_dt = 0.104166
+--------------------------
+knotpoint = 10
+q_states
+ 0.976177  -0.750000  
+qdot_states
+ 2.931867  -0.000000  
+torque_states
+ 47.814872  
+Fr_states
+ 0.000000  
+h_dt = 0.0771445
+--------------------------
+knotpoint = 11
+q_states
+ 1.113029  -0.750000  
+qdot_states
+ 2.199378  -0.000000  
+torque_states
+-1.962000  
+Fr_states
+ 0.000000  
+h_dt = 0.062223
+--------------------------
+knotpoint = 12
+q_states
+ 1.204304  -0.750000  
+qdot_states
+ 1.466884  -0.000000  
+torque_states
+-1.962000  
+Fr_states
+ 0.000000  
+h_dt = 0.0622234
+--------------------------
+knotpoint = 13
+q_states
+ 1.250000  -0.750000  
+qdot_states
+ 0.734396   0.000000  
+torque_states
+-1.962000  
+Fr_states
+ 0.000000  
+h_dt = 0.0622229
+--------------------------
+knotpoint = 14
+q_states
+ 1.256782  -0.747463  
+qdot_states
+ 0.135647   0.050742  
+torque_states
+-1.150131  
+Fr_states
+ 0.000000  
+h_dt = 0.05
+--------------------------
+knotpoint = 15
+q_states
+ 1.196465  -0.746327  
+qdot_states
+-0.774229   0.014585  
+torque_states
+-2.333286  
+Fr_states
+ 0.000000  
+h_dt = 0.0779058
+--------------------------
+knotpoint = 16
+q_states
+ 1.128374  -0.745848  
+qdot_states
+-1.361825   0.009568  
+torque_states
+-2.042275  
+Fr_states
+ 0.000000  
+h_dt = 0.05
+--------------------------
+knotpoint = 17
+q_states
+ 1.031121  -0.746709  
+qdot_states
+-1.945067  -0.017222  
+torque_states
+-2.390643  
+Fr_states
+ 0.000000  
+h_dt = 0.05
+--------------------------
+knotpoint = 18
+q_states
+ 0.904923  -0.750000  
+qdot_states
+-2.523949  -0.065813  
+torque_states
+-2.739448  
+Fr_states
+ 0.000000  
+h_dt = 0.05
+--------------------------
+knotpoint = 19
+q_states
+ 0.750000  -0.750000  
+qdot_states
+-3.098468   0.000000  
+torque_states
+-3.088448  
+Fr_states
+ 2.724316  
+h_dt = 0.05
+--------------------------
+knotpoint = 20
+q_states
+ 0.480874  -0.480874  
+qdot_states
+-0.269126   0.269126  
+torque_states
+-60.367371  
+Fr_states
+ 73.275839  
+h_dt = 1
+--------------------------
+knotpoint = 21
+q_states
+ 0.435671  -0.435671  
+qdot_states
+-0.904070   0.904070  
+torque_states
+ 1.745514  
+Fr_states
+ 8.064486  
+h_dt = 0.05
+--------------------------
+knotpoint = 22
+q_states
+ 0.358715  -0.358715  
+qdot_states
+-1.539125   1.539125  
+torque_states
+ 1.754453  
+Fr_states
+ 8.055547  
+h_dt = 0.05
+--------------------------
+knotpoint = 23
+q_states
+ 0.250000  -0.250000  
+qdot_states
+-2.174293   2.174293  
+torque_states
+ 1.763412  
+Fr_states
+ 8.046588  
+h_dt = 0.05
+--------------------------
+knotpoint = 24
+q_states
+ 0.250000  -0.250000  
+qdot_states
+ 0.000000  -0.000000  
+torque_states
+-57.747171  
+Fr_states
+ 67.557171  
+h_dt = 1
+--------------------------
+knotpoint = 25
+q_states
+ 0.725016  -0.725016  
+qdot_states
+ 1.008247  -1.008247  
+torque_states
+-57.610235  
+Fr_states
+ 67.420235  
+h_dt = 0.471131
+--------------------------
+knotpoint = 26
+q_states
+ 0.750000  -0.750000  
+qdot_states
+ 0.499675  -0.499675  
+torque_states
+-8.364190  
+Fr_states
+ 18.174190  
+h_dt = 0.05
+--------------------------
+knotpoint = 27
+q_states
+ 0.749995  -0.749995  
+qdot_states
+-0.000100   0.000100  
+torque_states
+-9.068023  
+Fr_states
+ 18.878023  
+h_dt = 0.05
