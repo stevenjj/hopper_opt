@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>hopper_opt</name>
+  <name>nlp_optimization</name>
   <version>0.0.0</version>
-  <description>The hopper_opt package</description>
+  <description>The nlp_optimization package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->

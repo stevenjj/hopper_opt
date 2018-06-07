@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(hopper_opt)
+project(nlp_optimization)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
@@ -248,6 +248,11 @@ target_link_libraries(test_hopper_act_jump_traj  ${SJUtils} ${SJurdf} ${SJrbdl} 
 
 
 
+#---------------------------------------------
+# Test Interpolation
+#---------------------------------------------
+add_executable(test_interpolation src/small_tests/test_interpolation.cpp)
+target_link_libraries(test_interpolation  ${SJUtils})
 
 
 
