@@ -1,5 +1,5 @@
-#ifndef ROBOT_MODEL
-#define ROBOT_MODEL
+#ifndef VALKYRIE_ROBOT_MODEL
+#define VALKYRIE_ROBOT_MODEL
 
 #include <rbdl/rbdl.h>
 #include <Utils/wrap_eigen.hpp>
@@ -9,11 +9,11 @@ class Valkyrie_Kin_Model;
 
 using namespace sejong;
 
-class RobotModel{
+class ValkyrieRobotModel{
 public:
     // EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-    static RobotModel* GetRobotModel();
-    virtual ~RobotModel(void);
+    static ValkyrieRobotModel* GetValkyrieRobotModel();
+    virtual ~ValkyrieRobotModel(void);
 
     bool getMassInertia(sejong::Matrix & A);
 
@@ -49,7 +49,7 @@ protected:
 
     RigidBodyDynamics::Model* model_;
 private:
-    RobotModel();
+    ValkyrieRobotModel();
     int last_timestep_model_update = -1;
 };
 
