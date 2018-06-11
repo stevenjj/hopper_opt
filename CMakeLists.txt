@@ -53,7 +53,13 @@ include_directories(${Sejong_Eigen_Path})
 include_directories(include)
 include_directories(src/hopper_dynamic_model)
 include_directories(src/draco_dynamic_model)
+include_directories(src/valkyrie_dynamic_model)
 
+# Creates a model_config.h file for finding the directory of this package
+SET (THIS_PACKAGE_PATH "${PROJECT_SOURCE_DIR}/" )
+CONFIGURE_FILE(${PROJECT_SOURCE_DIR}/model_config.h.cmake ${PROJECT_SOURCE_DIR}/include/model_config.h)
+
+# Set Sources Directly ------------------------------------------------------------------------------------------
 set(hopper_model_sources src/hopper_dynamic_model/Hopper_Definition.h
 						 src/hopper_dynamic_model/HopperModel.hpp
 						 src/hopper_dynamic_model/HopperModel.cpp)			
@@ -67,7 +73,7 @@ set(draco_dyn_model_sources src/draco_dynamic_model/DracoP1Rot_Definition.h
 						  src/draco_dynamic_model/Draco_Kin_Model.hpp						  
 						  src/draco_dynamic_model/Draco_Kin_Model.cpp						  
 						  src/draco_dynamic_model/DracoModel.hpp
-						  src/draco_dynamic_model/DracoModel.cpp)		
+						  src/draco_dynamic_model/DracoModel.cpp)	
 
 set(container_sources src/optimization/containers/opt_variable.cpp
 						  src/optimization/containers/opt_variable_manager.cpp
@@ -245,16 +251,7 @@ add_executable(test_hopper_act_jump_traj  src/small_tests/test_hopper_act_jump_t
 )
 target_link_libraries(test_hopper_act_jump_traj  ${SJUtils} ${SJurdf} ${SJrbdl} ${SJsnopt})								 
 
-
-
-
-#---------------------------------------------
-# Test Interpolation
-#---------------------------------------------
-add_executable(test_interpolation src/small_tests/test_interpolation.cpp)
-target_link_libraries(test_interpolation  ${SJUtils})
-
-
-
-
-		 
+# ----------------------------------------
+# Add Subdirectories
+add_subdirectory(src/valkyrie_dynamic_model)		 
+add_subdirectory(src/small_tests)
