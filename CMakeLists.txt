@@ -37,9 +37,17 @@ catkin_package(
 ###########
 # After installing the sejong library via sudo make install, we have to find the installed libraries and all the included files
 
+
+# find_package(yaml-cpp PATHS /home/sjorgen1/yaml-cpp)
+# message(${YAML_CPP_INCLUDE_DIR})
+# message(${YAML_CPP_LIBRARIES})
+
 set(Sejong_Library_Path /usr/local/lib/SDC_Toolkit)
 set(Sejong_Include_Path /usr/local/include/SDC_Toolkit/)
 set(Sejong_Eigen_Path ~/Sejong_Dynamic_Control_Toolkit/ExternalSource)
+
+set(Yaml_Library_Path /usr/local/lib/)
+find_library(SJYamlCpp NAMES libyaml-cpp.a PATHS ${Yaml_Library_Path}  REQUIRED)
 
 find_library(SJUtils NAMES libSJutils.so PATHS ${Sejong_Library_Path}  REQUIRED)
 find_library(SJurdf NAMES libSJurdf.so PATHS ${Sejong_Library_Path}  REQUIRED)
