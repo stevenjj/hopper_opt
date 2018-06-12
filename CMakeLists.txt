@@ -46,8 +46,8 @@ set(Sejong_Library_Path /usr/local/lib/SDC_Toolkit)
 set(Sejong_Include_Path /usr/local/include/SDC_Toolkit/)
 set(Sejong_Eigen_Path ~/Sejong_Dynamic_Control_Toolkit/ExternalSource)
 
-set(Yaml_Library_Path /usr/local/lib/)
-find_library(SJYamlCpp NAMES libyaml-cpp.a PATHS ${Yaml_Library_Path}  REQUIRED)
+# set(Yaml_Library_Path /usr/local/lib/)
+# find_library(SJYamlCpp NAMES libyaml-cpp.a PATHS ${Yaml_Library_Path}  REQUIRED)
 
 find_library(SJUtils NAMES libSJutils.so PATHS ${Sejong_Library_Path}  REQUIRED)
 find_library(SJurdf NAMES libSJurdf.so PATHS ${Sejong_Library_Path}  REQUIRED)

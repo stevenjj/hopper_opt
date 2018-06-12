@@ -2,7 +2,7 @@
 
 #include "ValkyrieRobotModel.hpp"
 #include "valkyrie_definition.h"
-#include <yaml-cpp/yaml.h>
+//#include <yaml-cpp/yaml.h>
 
 int main(int argc, char **argv){
 
@@ -54,16 +54,16 @@ int main(int argc, char **argv){
 	sejong::pretty_print(grav, std::cout, "Val grav");	
 
 
-	YAML::Node config;
-	config  = YAML::LoadFile(THIS_PACKAGE_PATH"vec_sample.yaml");
+	// YAML::Node config;
+	// config  = YAML::LoadFile(THIS_PACKAGE_PATH"vec_sample.yaml");
 
-	std::string key = "q_vec";
-	std::vector<double> vec_value;
-	vec_value = config[key].as<std::vector<double> >();
+	// std::string key = "q_vec";
+	// std::vector<double> vec_value;
+	// vec_value = config[key].as<std::vector<double> >();
 
-	std::cout << "vec_value contents" << std::endl;
-	for(int i = 0; i < vec_value.size(); i++){
-		std::cout << "i:" << i << ", has value " << vec_value[i] << std::endl;
-	}
+	// std::cout << "vec_value contents" << std::endl;
+	// for(int i = 0; i < vec_value.size(); i++){
+	// 	std::cout << "i:" << i << ", has value " << vec_value[i] << std::endl;
+	// }
 
 }
